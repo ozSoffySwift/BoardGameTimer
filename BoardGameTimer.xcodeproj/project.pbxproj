@@ -24,6 +24,7 @@
 		F2FE134C44E6461DB32F71B7 /* PlayingPhaseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962BCC10B0E946AF89A0C403 /* PlayingPhaseListView.swift */; };
 		A12AC0CF61404C3E8B59276F /* SummaryPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */; };
 		8B09A9FB1B5648419AF1007A /* LiveGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0097C645CB4496BBB38874 /* LiveGameView.swift */; };
+		ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		962BCC10B0E946AF89A0C403 /* PlayingPhaseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingPhaseListView.swift; sourceTree = "<group>"; };
 		0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryPlaceholderView.swift; sourceTree = "<group>"; };
 		8F0097C645CB4496BBB38874 /* LiveGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveGameView.swift; sourceTree = "<group>"; };
+		0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 			children = (
 				7DA254E6A1A84F10B42DF455 /* PlayerCount */,
 				95E30767062B4FB88C6D39A0 /* LiveGame */,
+				FDE3B011F503492BA14C1468 /* Splash */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -146,6 +149,14 @@
 				8F0097C645CB4496BBB38874 /* LiveGameView.swift */,
 			);
 			path = LiveGame;
+			sourceTree = "<group>";
+		};
+		FDE3B011F503492BA14C1468 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 		E8F6EBDE96094F3785A73A77 /* Preview Content */ = {
@@ -241,6 +252,7 @@
 				F2FE134C44E6461DB32F71B7 /* PlayingPhaseListView.swift in Sources */,
 				A12AC0CF61404C3E8B59276F /* SummaryPlaceholderView.swift in Sources */,
 				8B09A9FB1B5648419AF1007A /* LiveGameView.swift in Sources */,
+				ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
