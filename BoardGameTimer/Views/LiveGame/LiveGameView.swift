@@ -17,6 +17,10 @@ struct LiveGameView: View {
     // dismissing the `.fullScreenCover` this view was presented in, back to PlayerCountView.
     @Environment(\.dismiss) private var dismiss
 
+    // Read from the Settings screen (see SettingsView.swift) — whether the phone's screen
+    // should be prevented from auto-locking while a game is in progress.
+    @AppStorage("keepScreenAwakeDuringGames") private var keepScreenAwakeDuringGames = true
+
     var body: some View {
         // `TimelineView(.periodic(from:by:))` asks SwiftUI to re-run the closure below on a
         // fixed schedule (every 0.2 seconds here) — this is what makes the on-screen timer
@@ -27,6 +31,20 @@ struct LiveGameView: View {
         // (`accumulated + time since start`) never actually stores "now" anywhere.
         TimelineView(.periodic(from: .now, by: 0.2)) { timelineContext in
             phaseContent(now: timelineContext.date)
+        }
+        // `UIApplication.shared.isIdleTimerDisabled` is the system-wide switch that tells
+        // iOS "don't auto-lock the screen right now" — normally iOS locks the screen after
+        // a short period of no touches, which would be disruptive mid-game. We turn this ON
+        // the moment this screen appears, and — very importantly — turn it back OFF when
+        // this screen disappears, so leaving a game doesn't accidentally leave the ENTIRE
+        // REST OF THE APP unable to auto-lock, wasting battery forever.
+        .onAppear {
+            if keepScreenAwakeDuringGames {
+                UIApplication.shared.isIdleTimerDisabled = true
+            }
+        }
+        .onDisappear {
+            UIApplication.shared.isIdleTimerDisabled = false
         }
     }
 

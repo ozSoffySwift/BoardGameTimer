@@ -31,6 +31,10 @@
 		4915389E863847E084C3A536 /* BGGSearchResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */; };
 		C417DAA5119A46758A3ECBA3 /* FirstPlayerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */; };
 		4411954C84994E3BBBF266B3 /* MultiTouchDetectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */; };
+		B07BE4804A0F452DB420FBE0 /* AppearancePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DDC04538D243B6ABDB6D44 /* AppearancePreference.swift */; };
+		633FB27FC26F4853929692DD /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */; };
+		A5333969EB734350A088B86D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E552DC0E1E451E905E99F5 /* SettingsView.swift */; };
+		4948F7D6A33242599E71CEA4 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +64,10 @@
 		A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGGSearchResultRow.swift; sourceTree = "<group>"; };
 		6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPlayerPickerView.swift; sourceTree = "<group>"; };
 		28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTouchDetectorView.swift; sourceTree = "<group>"; };
+		29DDC04538D243B6ABDB6D44 /* AppearancePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePreference.swift; sourceTree = "<group>"; };
+		F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		B7E552DC0E1E451E905E99F5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +117,7 @@
 				18005971C7F64DF6A3AC0471 /* PlayerRuntimeState.swift */,
 				27568111616F4B52A7F1B9AB /* GamePhase.swift */,
 				104F7C03593B4C0E8126560F /* BGGGameSummary.swift */,
+				29DDC04538D243B6ABDB6D44 /* AppearancePreference.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -136,8 +145,27 @@
 				7DA254E6A1A84F10B42DF455 /* PlayerCount */,
 				95E30767062B4FB88C6D39A0 /* LiveGame */,
 				FDE3B011F503492BA14C1468 /* Splash */,
+				3FACCA742DEB4583AA53D572 /* Settings */,
+				8984B3217D824ACE919A146F /* About */,
+				F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		3FACCA742DEB4583AA53D572 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B7E552DC0E1E451E905E99F5 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		8984B3217D824ACE919A146F /* About */ = {
+			isa = PBXGroup;
+			children = (
+				D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */,
+			);
+			path = About;
 			sourceTree = "<group>";
 		};
 		7DA254E6A1A84F10B42DF455 /* PlayerCount */ = {
@@ -276,6 +304,10 @@
 				4915389E863847E084C3A536 /* BGGSearchResultRow.swift in Sources */,
 				C417DAA5119A46758A3ECBA3 /* FirstPlayerPickerView.swift in Sources */,
 				4411954C84994E3BBBF266B3 /* MultiTouchDetectorView.swift in Sources */,
+				B07BE4804A0F452DB420FBE0 /* AppearancePreference.swift in Sources */,
+				633FB27FC26F4853929692DD /* MainTabView.swift in Sources */,
+				A5333969EB734350A088B86D /* SettingsView.swift in Sources */,
+				4948F7D6A33242599E71CEA4 /* AboutView.swift in Sources */,
 				ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

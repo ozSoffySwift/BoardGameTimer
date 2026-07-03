@@ -1,4 +1,5 @@
 import SwiftUI
+import AudioToolbox // Needed for AudioServicesPlaySystemSound, the short turn-change sound below.
 
 // PlayingPieView is the REAL Milestone 3/4 Playing-phase screen: the signature full-screen
 // radial pie layout, wired to the live GameSessionViewModel, with working turn-passing.
@@ -17,6 +18,11 @@ struct PlayingPieView: View {
 
     // Called when the user taps "End Game Early."
     let onEndGameEarly: () -> Void
+
+    // Read from the Settings screen (see SettingsView.swift) — whether turn changes should
+    // buzz/play a sound at all.
+    @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
+    @AppStorage("soundEffectsEnabled") private var soundEffectsEnabled = true
 
     var body: some View {
         // Build a copy of `viewModel.players` where the ACTIVE player's stored time is
@@ -57,6 +63,7 @@ struct PlayingPieView: View {
                     } else {
                         viewModel.selectPlayer(at: tappedIndex)
                     }
+                    playTurnChangeSoundIfEnabled()
                 },
                 centerPrimaryText: activePlayerElapsed.asClockString,
                 centerSecondaryText: activePlayerName
@@ -85,6 +92,7 @@ struct PlayingPieView: View {
                 // next wedge under time pressure.
                 Button {
                     viewModel.passToNextPlayer()
+                    playTurnChangeSoundIfEnabled()
                 } label: {
                     Label("Pass Turn", systemImage: "arrow.triangle.2.circlepath")
                         .font(.system(.headline, design: .rounded))
@@ -95,6 +103,24 @@ struct PlayingPieView: View {
                 .padding(.bottom, 24)
             }
         }
+        // `.sensoryFeedback` is the modern, iOS-17-native way to trigger a haptic buzz — it
+        // watches `viewModel.activePlayerIndex` and fires automatically the instant that
+        // value changes (from ANY of the turn-passing paths above), so there's only one
+        // place to think about haptics rather than repeating this at every tap site. The
+        // closure form (rather than a fixed `.selection` feedback) lets us return `nil` to
+        // skip the buzz entirely when the setting is off.
+        .sensoryFeedback(trigger: viewModel.activePlayerIndex) { _, _ in
+            hapticFeedbackEnabled ? .selection : nil
+        }
+    }
+
+    // Plays a short, subtle system sound on turn change, if the user has sound effects
+    // turned on in Settings. `1104` is one of iOS's built-in system sound IDs (a soft
+    // "tock", the same one used for the Camera app's focus-lock click) — using a built-in
+    // system sound means no audio files need to be added to the project at all.
+    private func playTurnChangeSoundIfEnabled() {
+        guard soundEffectsEnabled else { return }
+        AudioServicesPlaySystemSound(1104)
     }
 }
 
