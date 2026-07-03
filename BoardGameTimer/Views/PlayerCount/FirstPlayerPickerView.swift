@@ -72,7 +72,12 @@ struct FirstPlayerPickerView: View {
                 Color(.systemBackground)
 
                 // The invisible UIKit surface doing the actual multi-finger detection,
-                // covering the whole screen so a finger can rest ANYWHERE.
+                // covering the whole screen so a finger can rest ANYWHERE. This whole
+                // ZStack ignores the safe area (see the bottom of `body`) so touch
+                // coordinates and the dots drawn for them below share one consistent
+                // full-screen coordinate space — splitting `.ignoresSafeArea()` across
+                // only SOME layers here would risk the drawn dots landing in a different
+                // coordinate space than the real finger position that produced them.
                 MultiTouchDetectorView { touches in
                     handleTouchesChanged(touches)
                 }
@@ -103,7 +108,25 @@ struct FirstPlayerPickerView: View {
                                 .padding(12)
                         }
                         Spacer()
+                        // Lets the group skip this mini-game entirely (e.g. solo testing,
+                        // or a group in a hurry) and just start with seat 0 — the same
+                        // "nobody's picked yet" default `GameSessionViewModel` already
+                        // falls back to on its own.
+                        Button {
+                            countdownTask?.cancel()
+                            onPicked(0)
+                        } label: {
+                            Text("Skip")
+                                .font(.system(.subheadline, design: .rounded).weight(.semibold))
+                                .padding(12)
+                        }
                     }
+                    // Since the whole screen (including this button row) deliberately
+                    // ignores the safe area below, this row would otherwise sit right
+                    // under the status bar/Dynamic Island — a fixed manual margin keeps it
+                    // clear, the same "manual inset, don't blindly ignoresSafeArea"
+                    // approach used for controls on the Live Game screen.
+                    .padding(.top, 50)
                     Spacer()
                     Text(instructionText)
                         .font(.system(.title3, design: .rounded).weight(.semibold))
