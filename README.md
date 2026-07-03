@@ -1,5 +1,7 @@
 # Board Game Timer
 
+<img src="BoardGameTimer/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png" width="100" height="100" alt="Board Game Timer app icon: a four-color radial pie wedge with a clock hub in the center" align="left">
+
 A native SwiftUI iOS app for timing tabletop board games with up to 8 players. Set the
 phone flat in the middle of the table and every player gets their own wedge of a
 full-screen radial "pie" layout — name, icon, and running time rotated so it reads
@@ -7,6 +9,8 @@ upright from that player's own seat, lazy-Susan style.
 
 Built as a beginner-friendly, milestone-by-milestone project — see [PLAN.md](PLAN.md)
 for the full data model, view-model design, angle/rotation math, and build order.
+
+<br clear="left">
 
 ## Features (in progress)
 
