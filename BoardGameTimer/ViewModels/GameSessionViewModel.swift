@@ -53,15 +53,40 @@ final class GameSessionViewModel: Identifiable {
     // total game duration for the Summary screen and saved history.
     let sessionStartDate = Date()
 
+    // The name of the game being played, e.g. "Catan" — either typed in freely, or copied
+    // over from a BoardGameGeek search result the user picked. `nil` if they skipped naming
+    // the game entirely, which is allowed (the timer still works fine without it).
+    let gameTitle: String?
+
+    // A small preview picture of the game's box art, fetched from BoardGameGeek, if the
+    // user picked a specific search result rather than just typing a name. `nil` if there's
+    // no matching picture (either they typed a name BGG doesn't know, or skipped it).
+    let coverImageURL: URL?
+
+    // Which seat should take the very FIRST turn once the Playing phase begins. Defaults to
+    // seat 0, but the "everyone place a finger" first-player picker (FirstPlayerPickerView)
+    // can choose a different starting seat instead, based on where the winning finger was
+    // touching relative to the pie's center.
+    private let firstPlayerIndex: Int
+
     // When the CURRENTLY ACTIVE player's turn last started running. Mirrors
     // `phaseStartDate`, but for whichever single player is "up" during the Playing phase,
     // rather than for a shared phase timer.
     private var activePlayerTurnStartDate: Date?
 
     // Sets up a brand new live game with the given players. Called once, right when the
-    // user taps "Continue"/"Start Game".
-    init(players: [PlayerRuntimeState]) {
+    // user taps "Continue"/"Start Game". `gameTitle` and `coverImageURL` default to `nil`
+    // and `firstPlayerIndex` defaults to `0`, so existing call sites (and Xcode Previews)
+    // that don't care about BGG or the finger-picker can keep calling this with just
+    // `players:` and everything still works exactly as before.
+    init(players: [PlayerRuntimeState], gameTitle: String? = nil, coverImageURL: URL? = nil, firstPlayerIndex: Int = 0) {
         self.players = players
+        self.gameTitle = gameTitle
+        self.coverImageURL = coverImageURL
+        // Guard against an out-of-range value (e.g. a stale finger-picker result from a
+        // different player count) by wrapping it back into range with `%`, rather than
+        // letting `selectPlayer(at:)` silently no-op later and leave nobody active.
+        self.firstPlayerIndex = players.isEmpty ? 0 : firstPlayerIndex % players.count
     }
 
     // Calculates how many seconds the CURRENT phase's shared timer has been running in
@@ -131,10 +156,11 @@ final class GameSessionViewModel: Identifiable {
         }
         currentPhase = allPhases[currentIndex + 1]
 
-        // The moment we step INTO the Playing phase, automatically start the first seat's
-        // turn clock so the game doesn't sit there with nobody "active."
+        // The moment we step INTO the Playing phase, automatically start the designated
+        // first player's turn clock (seat 0 by default, or whichever seat the finger-picker
+        // chose) so the game doesn't sit there with nobody "active."
         if currentPhase == .playing {
-            selectPlayer(at: 0)
+            selectPlayer(at: firstPlayerIndex)
         }
     }
 
@@ -176,8 +202,8 @@ final class GameSessionViewModel: Identifiable {
         guard !players.isEmpty else { return }
 
         guard let activePlayerIndex else {
-            // Nobody has taken a turn yet somehow — just start with the first seat.
-            selectPlayer(at: 0)
+            // Nobody has taken a turn yet somehow — just start with the designated first seat.
+            selectPlayer(at: firstPlayerIndex)
             return
         }
 

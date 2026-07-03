@@ -542,6 +542,48 @@ moving to the next, so there is always something working to look at.
 
 ---
 
+## Feature Additions (post-M2, ahead of formal M5/M6)
+
+Four features added directly on top of Milestones 1-2, based on competitor research
+(see repo discussion) and user request — mocked up first, approved, then built:
+
+### Game setup: name + BoardGameGeek search
+`PlayerCountView` now also has a "Game" text field. Typing debounces (400ms) into a call
+to `BoardGameGeekService.searchWithThumbnails(query:)`, which hits BGG's public XML API2
+(`xmlapi2/search` then a batched `xmlapi2/thing?id=...` for thumbnails/player counts),
+parsed with `XMLParser` (no third-party dependencies). Picking a result shows its real
+cover art via `AsyncImage`. Naming the game is optional — BGG failures/no-matches fall
+back silently to a free-text name, never blocking Continue.
+
+**Known blocker:** as of late 2025, BGG requires all XML API requests to come from a
+registered, authenticated application (`Authorization: Bearer <token>`) — anonymous
+requests get `401 Unauthorized`. `BoardGameGeekService.apiToken` is the single insertion
+point for a token once one is obtained (apply at
+[boardgamegeek.com/using_the_xml_api](https://boardgamegeek.com/using_the_xml_api),
+~1 week approval). Never commit a real token — this repo is public.
+
+### First-player picker (multitouch finger-picker)
+`FirstPlayerPickerView`, shown after game setup and before the real timer starts:
+everyone rests one finger on the screen; once 2+ fingers are down and held still for
+1.2s, an animated "wave" hops between them and lands on one at random. Real simultaneous
+multi-finger detection needed a small UIKit bridge (`MultiTouchDetectorView`, a
+`UIViewRepresentable` wrapping a `UIView` with `isMultipleTouchEnabled = true`) since
+plain SwiftUI gestures only track one touch at a time. The winning finger's ANGLE from
+the screen's center (using the exact same "-90 degrees, clockwise" convention as
+`WedgeShape`) determines which pie seat goes first — players don't need to know their
+seat number, they just touch near where they're sitting.
+
+### Real radial pie gameplay (M3/M4, now wired to live data)
+`PlayingPieView` replaces `PlayingPhaseListView` as what `.playing` actually shows:
+`PieLayoutView` reconnected to the live `GameSessionViewModel`, with a pulsing white
+indicator (`ActiveSeatPulseView`) marking whichever seat is active. Tapping the ACTIVE
+wedge passes the turn clockwise (`passToNextPlayer()`); tapping any OTHER wedge jumps
+directly to that player (`selectPlayer(at:)`) — both behaviors coexist, per the original
+M3/M4 design in Section 3. `Pass Turn` and `End Game Early` controls float above the
+full-bleed pie, inset from the edges per the safe-area pitfall noted in Section 4.
+
+---
+
 ## Summary of Key Design Decisions (quick reference)
 
 | Decision | Choice | Why |

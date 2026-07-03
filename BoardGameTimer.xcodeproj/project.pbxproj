@@ -25,6 +25,12 @@
 		A12AC0CF61404C3E8B59276F /* SummaryPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */; };
 		8B09A9FB1B5648419AF1007A /* LiveGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0097C645CB4496BBB38874 /* LiveGameView.swift */; };
 		ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */; };
+		AA6600F8FBD64A2F8A1A701E /* BGGGameSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F7C03593B4C0E8126560F /* BGGGameSummary.swift */; };
+		EF889FD3921249079919739C /* BoardGameGeekService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E47532DED484D9EEDCF40 /* BoardGameGeekService.swift */; };
+		D643B952E2504B2597F02BA3 /* PlayingPieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F8A2FC43C45B6AFC5A8D1 /* PlayingPieView.swift */; };
+		4915389E863847E084C3A536 /* BGGSearchResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */; };
+		C417DAA5119A46758A3ECBA3 /* FirstPlayerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */; };
+		4411954C84994E3BBBF266B3 /* MultiTouchDetectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +54,12 @@
 		0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryPlaceholderView.swift; sourceTree = "<group>"; };
 		8F0097C645CB4496BBB38874 /* LiveGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveGameView.swift; sourceTree = "<group>"; };
 		0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		104F7C03593B4C0E8126560F /* BGGGameSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGGGameSummary.swift; sourceTree = "<group>"; };
+		3C4E47532DED484D9EEDCF40 /* BoardGameGeekService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameGeekService.swift; sourceTree = "<group>"; };
+		5A5F8A2FC43C45B6AFC5A8D1 /* PlayingPieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingPieView.swift; sourceTree = "<group>"; };
+		A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGGSearchResultRow.swift; sourceTree = "<group>"; };
+		6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPlayerPickerView.swift; sourceTree = "<group>"; };
+		28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTouchDetectorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +108,7 @@
 			children = (
 				18005971C7F64DF6A3AC0471 /* PlayerRuntimeState.swift */,
 				27568111616F4B52A7F1B9AB /* GamePhase.swift */,
+				104F7C03593B4C0E8126560F /* BGGGameSummary.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -104,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				E8A5F7097CB94484A6227727 /* TimeFormatting.swift */,
+				3C4E47532DED484D9EEDCF40 /* BoardGameGeekService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -130,6 +144,9 @@
 			isa = PBXGroup;
 			children = (
 				52C4EECDF81047A3A735FF44 /* PlayerCountView.swift */,
+				A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */,
+				6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */,
+				28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */,
 			);
 			path = PlayerCount;
 			sourceTree = "<group>";
@@ -147,6 +164,7 @@
 				962BCC10B0E946AF89A0C403 /* PlayingPhaseListView.swift */,
 				0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */,
 				8F0097C645CB4496BBB38874 /* LiveGameView.swift */,
+				5A5F8A2FC43C45B6AFC5A8D1 /* PlayingPieView.swift */,
 			);
 			path = LiveGame;
 			sourceTree = "<group>";
@@ -252,6 +270,12 @@
 				F2FE134C44E6461DB32F71B7 /* PlayingPhaseListView.swift in Sources */,
 				A12AC0CF61404C3E8B59276F /* SummaryPlaceholderView.swift in Sources */,
 				8B09A9FB1B5648419AF1007A /* LiveGameView.swift in Sources */,
+				AA6600F8FBD64A2F8A1A701E /* BGGGameSummary.swift in Sources */,
+				EF889FD3921249079919739C /* BoardGameGeekService.swift in Sources */,
+				D643B952E2504B2597F02BA3 /* PlayingPieView.swift in Sources */,
+				4915389E863847E084C3A536 /* BGGSearchResultRow.swift in Sources */,
+				C417DAA5119A46758A3ECBA3 /* FirstPlayerPickerView.swift in Sources */,
+				4411954C84994E3BBBF266B3 /* MultiTouchDetectorView.swift in Sources */,
 				ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,6 +11,23 @@ struct PieLayoutView: View {
     // The players to display, already in seat order (seatIndex 0, 1, 2, ...).
     let players: [PlayerRuntimeState]
 
+    // Which seat (if any) currently has an active/running turn — that wedge gets a small
+    // pulsing indicator so it's obvious at a glance whose turn it is, even glancing at the
+    // phone from across the table. `nil` while there's no active turn (e.g. outside the
+    // Playing phase).
+    var activeSeatIndex: Int? = nil
+
+    // Called whenever a wedge is tapped, with that wedge's seat index. Defaults to an empty
+    // closure so Milestone-1-style callers (like LiveGameDemoView) that don't care about
+    // taps don't need to pass anything.
+    var onWedgeTap: (Int) -> Void = { _ in }
+
+    // What to show in the center hub. Defaults match Milestone 1's original placeholder
+    // text, so existing previews/demo screens keep looking the same unless a caller (like
+    // PlayingPieView) supplies real live values instead.
+    var centerPrimaryText: String = "Playing"
+    var centerSecondaryText: String? = nil
+
     var body: some View {
         // GeometryReader tells us exactly how much screen space we have to work with, via
         // `geometry.size`. All of the circle/angle math below depends on knowing this size,
@@ -46,9 +63,7 @@ struct PieLayoutView: View {
                         // pie slice — rotating a view can make its tap target behave in
                         // surprising ways, so we deliberately keep taps on the unrotated shape.
                         .onTapGesture {
-                            // Milestone 4 will replace this placeholder with a real call like
-                            // `viewModel.selectPlayer(at: index)` to actually pass the turn.
-                            print("Tapped seat \(index): \(player.name)")
+                            onWedgeTap(index)
                         }
                 }
 
@@ -91,11 +106,28 @@ struct PieLayoutView: View {
                         .rotationEffect(.degrees(centerAngleDegrees - 90))
                 }
 
+                // --- Layer 2.5: a small pulsing dot over whichever seat is currently
+                //     active, so "whose turn is it" is obvious even at a glance ---
+                if let activeSeatIndex, players.indices.contains(activeSeatIndex) {
+                    let anglePerWedge = 360.0 / Double(players.count)
+                    let centerAngleDegrees = Double(activeSeatIndex) * anglePerWedge + anglePerWedge / 2 - 90
+                    let centerAngleRadians = centerAngleDegrees * .pi / 180
+                    // Placed CLOSER to the hub than the player content (32% of the way out
+                    // rather than 68%), so it never overlaps the name/icon/time card.
+                    let indicatorRadius = (side / 2) * 0.32
+
+                    ActiveSeatPulseView()
+                        .position(
+                            x: center.x + indicatorRadius * cos(centerAngleRadians),
+                            y: center.y + indicatorRadius * sin(centerAngleRadians)
+                        )
+                }
+
                 // --- Layer 3: the center hub, always drawn LAST so it appears on top of
                 //     every wedge, covering the point where all the slices meet ---
                 CenterHubView(
-                    primaryText: "Playing",
-                    secondaryText: "\(players.count) players",
+                    primaryText: centerPrimaryText,
+                    secondaryText: centerSecondaryText ?? "\(players.count) players",
                     diameter: side * 0.28
                 )
                 .position(center)
@@ -104,9 +136,38 @@ struct PieLayoutView: View {
     }
 }
 
+// ActiveSeatPulseView is the small glowing dot that marks whichever wedge currently has an
+// active turn. It's its own tiny view (rather than inline math in PieLayoutView) purely so
+// it can own its OWN `@State` for the pulse animation — a repeating animation needs a
+// boolean to animate TOWARD, and that has to live somewhere that persists across redraws.
+private struct ActiveSeatPulseView: View {
+    // Starts `false` and flips to `true` once, in `.onAppear` below — SwiftUI then
+    // continuously animates back and forth between the "off" and "on" appearance because of
+    // the `.repeatForever` animation attached to that change, not because this value keeps
+    // changing itself.
+    @State private var isPulsing = false
+
+    var body: some View {
+        Circle()
+            .fill(.white)
+            .frame(width: 18, height: 18)
+            .shadow(radius: isPulsing ? 6 : 2)
+            // Grows and shrinks continuously once `isPulsing` becomes true.
+            .scaleEffect(isPulsing ? 1.5 : 1.0)
+            .onAppear {
+                // `.repeatForever(autoreverses: true)` makes this animation bounce back and
+                // forth between the two scale values forever, rather than running once and
+                // stopping — exactly what a continuous "pulse" needs.
+                withAnimation(.easeInOut(duration: 0.7).repeatForever(autoreverses: true)) {
+                    isPulsing = true
+                }
+            }
+    }
+}
+
 #Preview {
     // Preview with 4 fake players — change this number in Xcode's canvas to spot-check
     // other player counts (try 8 to see how crowded the wedges get, per the Milestone 3
     // testing note).
-    PieLayoutView(players: PlayerRuntimeState.sampleData(count: 4))
+    PieLayoutView(players: PlayerRuntimeState.sampleData(count: 4), activeSeatIndex: 0)
 }

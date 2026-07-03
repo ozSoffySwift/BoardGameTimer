@@ -1,14 +1,14 @@
 import SwiftUI
 
-// LiveGameView is the real, Milestone-2 top-level container for an in-progress game. It
-// swaps its whole body depending on `viewModel.currentPhase`, and is responsible for
-// actually driving the "redraw every fraction of a second so timers look alive" behavior
-// using `TimelineView` — none of the child views (PhaseBannerView, PlayingPhaseListView,
-// etc.) manage timing themselves; they just receive an already-decided `now` and display it.
+// LiveGameView is the real top-level container for an in-progress game. It swaps its whole
+// body depending on `viewModel.currentPhase`, and is responsible for actually driving the
+// "redraw every fraction of a second so timers look alive" behavior using `TimelineView` —
+// none of the child views (PhaseBannerView, PlayingPieView, etc.) manage timing themselves;
+// they just receive an already-decided `now` and display it.
 //
 // This replaces LiveGameDemoView (the Milestone-1 throwaway) as the screen that's actually
-// shown after Continue is tapped. LiveGameDemoView's file is left in place since its pie
-// visual (PieLayoutView, WedgeShape, etc.) will be reconnected to real data in Milestone 3.
+// shown after Continue is tapped. LiveGameDemoView's file is left in place as a reference
+// for how the pie visual originally worked with fake, unmoving sample data.
 struct LiveGameView: View {
     // The single source of truth for this game's phase/timer/turn state.
     let viewModel: GameSessionViewModel
@@ -41,8 +41,8 @@ struct LiveGameView: View {
             // reading `viewModel.currentPhase`.
             PhaseBannerView(viewModel: viewModel, now: now, onEndGameEarly: viewModel.endGameEarly)
         case .playing:
-            // Milestone 2's plain list stands in for the pie visual until Milestone 3.
-            PlayingPhaseListView(viewModel: viewModel, now: now, onEndGameEarly: viewModel.endGameEarly)
+            // The real signature radial pie layout, wired to live turn/timer state.
+            PlayingPieView(viewModel: viewModel, now: now, onEndGameEarly: viewModel.endGameEarly)
         case .summary:
             // Dismiss this whole full-screen game session when "Done" is tapped, back to
             // wherever LiveGameView was presented from (PlayerCountView, for now).
