@@ -61,8 +61,17 @@ struct PlayerCountView: View {
                 // `presentFirstPlayerPicker` / the `onPicked` closure below) — a real,
                 // running game uses a full-screen cover rather than a normal push so an
                 // accidental swipe-back or nav-bar tap can't interrupt a live timer.
+                //
+                // With only 1 player, "who goes first?" has exactly one possible answer —
+                // the finger-picker mini-game would be pointless (and would just sit there
+                // waiting for a second finger that's never coming), so skip straight to
+                // starting the game with seat 0 instead of showing it at all.
                 Button {
-                    isShowingFirstPlayerPicker = true
+                    if playerCount > 1 {
+                        isShowingFirstPlayerPicker = true
+                    } else {
+                        startGame(firstPlayerSeat: 0)
+                    }
                 } label: {
                     Text("Continue")
                         .font(.system(.headline, design: .rounded))
@@ -227,14 +236,20 @@ struct PlayerCountView: View {
             firstPlayerIndex: firstPlayerSeat
         )
 
-        // Dismiss the first-player-picker cover first...
-        isShowingFirstPlayerPicker = false
+        if isShowingFirstPlayerPicker {
+            // Dismiss the first-player-picker cover first...
+            isShowingFirstPlayerPicker = false
 
-        // ...then, a moment later, present the real live game. Presenting a SECOND
-        // full-screen cover in the same instant the first one is dismissing can make SwiftUI
-        // fight over which transition to animate — this tiny delay lets the picker's
-        // dismiss animation finish cleanly before the live game cover begins.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            // ...then, a moment later, present the real live game. Presenting a SECOND
+            // full-screen cover in the same instant the first one is dismissing can make
+            // SwiftUI fight over which transition to animate — this tiny delay lets the
+            // picker's dismiss animation finish cleanly before the live game cover begins.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                activeGameViewModel = newViewModel
+            }
+        } else {
+            // The picker was never shown (e.g. a solo, 1-player game skips it entirely) —
+            // there's no cover to dismiss first, so just present the live game right away.
             activeGameViewModel = newViewModel
         }
     }
