@@ -1,19 +1,35 @@
 import SwiftUI
 
-// MainTabView is the app's real root screen once the splash animation finishes: a
-// three-tab bottom bar for switching between the actual game timer, app settings, and an
-// About screen with developer/links info. Each tab gets its OWN `NavigationStack`, so
-// pushing a screen in one tab (not that any currently do) wouldn't affect the others —
-// the standard SwiftUI pattern for a multi-tab app.
+// MainTabView is the app's root once the splash finishes — redesigned to match the Claude
+// Design prototype's three tabs: Statistics (game history), Timer (the main flow, selected
+// by default), and Settings. Each tab has its own NavigationStack so navigation in one
+// never disturbs the others.
 struct MainTabView: View {
+    // Which tab is selected. Starts on Timer (the center tab) — the app's main purpose.
+    @State private var selectedTab: Tab = .timer
+
+    // The three tabs, named so the selection state reads clearly.
+    enum Tab {
+        case stats, timer, settings
+    }
+
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             NavigationStack {
-                PlayerCountView()
+                StatisticsView()
+            }
+            .tabItem {
+                Label("Statistics", systemImage: "chart.bar.fill")
+            }
+            .tag(Tab.stats)
+
+            NavigationStack {
+                TimerHomeView()
             }
             .tabItem {
                 Label("Timer", systemImage: "timer")
             }
+            .tag(Tab.timer)
 
             NavigationStack {
                 SettingsView()
@@ -21,17 +37,15 @@ struct MainTabView: View {
             .tabItem {
                 Label("Settings", systemImage: "gearshape.fill")
             }
-
-            NavigationStack {
-                AboutView()
-            }
-            .tabItem {
-                Label("About", systemImage: "info.circle.fill")
-            }
+            .tag(Tab.settings)
         }
+        // The silver accent for the selected tab icon, matching the design's tab bar.
+        .tint(.white)
     }
 }
 
 #Preview {
     MainTabView()
+        .modelContainer(for: GameRecord.self, inMemory: true)
+        .preferredColorScheme(.dark)
 }

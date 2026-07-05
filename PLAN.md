@@ -584,6 +584,42 @@ full-bleed pie, inset from the edges per the safe-area pitfall noted in Section 
 
 ---
 
+## V2 Redesign (imported from Claude Design)
+
+The app's UI was rebuilt against an approved Claude Design prototype
+("Board Game Timer.dc.html" in the user's Claude Design project) — a dark-only visual
+language (near-black `#0A0B0D` backgrounds, silver accents, ten fixed meeple gradients)
+replacing the earlier system-styled screens. The new flow:
+
+- **Tabs:** Statistics / Timer / Settings (`MainTabView`), Timer selected by default.
+- **Timer home** (`TimerHomeView`): split "New Timer" button — main area opens
+  `PlayerSetupView`, chevron opens a quick-start grid (1-6 players, saved defaults,
+  straight into a running game) — plus a Recent Games list from history.
+- **Player setup** (`PlayerSetupView` + `ColorPickerSheet`): count chips (1-6), per-player
+  name + meeple color, optional game name (free text — BGG search dropped in this design),
+  per-turn time limit (10s-300s stepper+slider), first-player menu incl. "Random"
+  (replacing the multitouch finger-picker).
+- **Active game** (`TimerActiveView` + `TimerGameViewModel`): full-bleed gradient wedges
+  (2-player games split top/bottom; solo = full circle), active wedge at full opacity with
+  white stroke + pulsing label, others dimmed; ONLY the active wedge is tappable and
+  passes clockwise. Center silver-ringed circle: whole-game clock, "<name> turn",
+  "Round N". Per-turn limit flips the active time red + double-beep ("overtime" — no
+  forced turn end). Bottom bar: one-level undo / pause / end. No Setup/Explanation/
+  Cleanup phases in this design.
+- **Results** (`ResultsView`): per-player totals, crown on the LEAST-time player,
+  ShareLink plain-text summary, Done — or Close when opened read-only from history.
+- **Statistics** (`StatisticsView`): SwiftData-backed history (`GameRecord` @Model —
+  the app's first persistent storage, fulfilling M5's persistence goal), empty state.
+- **Settings** (`SettingsView`): default turn time, ten default meeple colors, combined
+  Sound & Haptics toggle, keep-screen-awake, version, About link, Clear History
+  (confirmation-guarded bulk delete).
+
+Pre-redesign flow files (PlayerCountView, GameSessionViewModel, phase views, pie views,
+FirstPlayerPickerView/MultiTouchDetectorView, BGG service/views) remain in the repo,
+compiled but unreferenced, as reference material.
+
+---
+
 ## Summary of Key Design Decisions (quick reference)
 
 | Decision | Choice | Why |

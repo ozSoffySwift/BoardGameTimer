@@ -1,104 +1,238 @@
 import SwiftUI
+import SwiftData
 
-// SettingsView lets the user tweak a handful of small preferences that change how the app
-// behaves during a game. Every setting here is backed by `@AppStorage`, SwiftUI's built-in
-// wrapper around `UserDefaults` — it works exactly like `@State` (read it, write it, the
-// view updates automatically), except the value is also saved to disk automatically and is
-// still there the next time the app launches, with zero manual file-reading/writing code.
+// SettingsView is the redesigned settings tab (from the approved Claude Design prototype):
+// the default per-turn time new games start with, the ten default meeple colors handed to
+// new seats, one combined Sound & Haptics switch, version info, a link to the About
+// screen, and a destructive Clear History action guarded by a confirmation dialog.
+//
+// Every preference is backed by `@AppStorage`, SwiftUI's built-in wrapper around
+// UserDefaults — it reads/writes like `@State` but the value is saved to disk
+// automatically and survives relaunches, with no manual persistence code.
 struct SettingsView: View {
-    // Whether the screen should be prevented from auto-locking while a game is in progress
-    // — read by LiveGameView, which is where this setting actually takes effect. Defaults
-    // to `true` since a timer that's constantly interrupted by the screen locking would be
-    // pretty frustrating.
+    // The turn limit (seconds) new games are seeded with on the setup screen.
+    @AppStorage("defaultTurnLimitSeconds") private var defaultTurnLimitSeconds = 60
+
+    // One switch covering both the turn-pass click/buzz and the overtime beep.
+    @AppStorage("soundAndHapticsEnabled") private var soundAndHapticsEnabled = true
+
+    // Whether the phone stays awake during a running game (carried over from the previous
+    // design's settings — still genuinely useful mid-game).
     @AppStorage("keepScreenAwakeDuringGames") private var keepScreenAwakeDuringGames = true
 
-    // Whether turn changes trigger a haptic (vibration) buzz — read by PlayingPieView.
-    @AppStorage("hapticFeedbackEnabled") private var hapticFeedbackEnabled = true
+    // The ten default seat colors, stored as comma-separated text ("0,1,2,...") because
+    // @AppStorage can only hold simple types like String — not arrays directly.
+    @AppStorage("defaultColorsCSV") private var defaultColorsCSV = "0,1,2,3,4,5,6,7,8,9"
 
-    // Whether turn changes play a short system sound — also read by PlayingPieView.
-    @AppStorage("soundEffectsEnabled") private var soundEffectsEnabled = true
+    // For deleting all saved GameRecords when history is cleared.
+    @Environment(\.modelContext) private var modelContext
 
-    // Which color scheme to force (or "system" to just follow the rest of iOS). Stored as
-    // the enum's raw `String` because `@AppStorage` only understands simple types directly
-    // — `rawValue`/`init?(rawValue:)` is how we translate between that plain string and the
-    // real `AppearancePreference` enum everywhere else in the code.
-    @AppStorage("appearancePreference") private var appearancePreferenceRawValue = AppearancePreference.system.rawValue
+    // Which default-color SLOT is being repicked in the sheet, or nil when closed.
+    @State private var pickingSlot: Int?
 
-    // A computed property that reads/writes `appearancePreferenceRawValue` but as the real
-    // enum type — lets the `Picker` below work directly with `AppearancePreference` values
-    // instead of juggling raw strings itself.
-    private var appearancePreference: Binding<AppearancePreference> {
-        Binding(
-            get: { AppearancePreference(rawValue: appearancePreferenceRawValue) ?? .system },
-            set: { appearancePreferenceRawValue = $0.rawValue }
-        )
-    }
+    // Whether the "really clear all history?" confirmation is showing.
+    @State private var isConfirmingClear = false
 
     var body: some View {
-        Form {
-            Section {
-                Toggle(isOn: $keepScreenAwakeDuringGames) {
-                    Label("Keep Screen Awake During Games", systemImage: "sun.max.fill")
-                }
-                Toggle(isOn: $hapticFeedbackEnabled) {
-                    Label("Haptic Feedback", systemImage: "iphone.radiowaves.left.and.right")
-                }
-                Toggle(isOn: $soundEffectsEnabled) {
-                    Label("Sound Effects", systemImage: "speaker.wave.2.fill")
-                }
-            } header: {
-                Text("Gameplay")
-            }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Settings")
+                    .font(.system(size: 30, weight: .heavy))
+                    .foregroundStyle(.white)
+                    .padding(.top, 6)
 
-            Section {
-                // A segmented picker (rather than a list of rows) since there are only
-                // three short options — the standard, compact way to present "pick exactly
-                // one of a few things" in a Settings screen.
-                Picker("Appearance", selection: appearancePreference) {
-                    ForEach(AppearancePreference.allCases) { preference in
-                        Text(preference.displayName).tag(preference)
+                // --- Default turn time ---
+                VStack(alignment: .leading, spacing: 8) {
+                    sectionHeader("Default turn time")
+                    HStack {
+                        Text(TimeInterval(defaultTurnLimitSeconds).asClockString)
+                            .font(.system(size: 20, weight: .bold, design: .monospaced))
+                            .foregroundStyle(.white)
+                        Spacer()
+                        stepperButton("minus") {
+                            defaultTurnLimitSeconds = max(10, defaultTurnLimitSeconds - 5)
+                        }
+                        stepperButton("plus") {
+                            defaultTurnLimitSeconds = min(300, defaultTurnLimitSeconds + 5)
+                        }
+                    }
+                    .padding(.vertical, 14)
+                    .padding(.horizontal, 16)
+                    .background(MeeplePalette.card, in: RoundedRectangle(cornerRadius: 14))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(MeeplePalette.cardBorder, lineWidth: 1)
+                    )
+                }
+
+                // --- Default player colors (tap a meeple to change that seat's default) ---
+                VStack(alignment: .leading, spacing: 8) {
+                    sectionHeader("Default player colors")
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: 5), spacing: 10) {
+                        ForEach(Array(decodedDefaultColors.enumerated()), id: \.offset) { slot, colorIndex in
+                            Button {
+                                pickingSlot = slot
+                            } label: {
+                                MeepleView(colorIndex: colorIndex)
+                                    .frame(width: 38)
+                            }
+                        }
+                    }
+                    .padding(14)
+                    .frame(maxWidth: .infinity)
+                    .background(MeeplePalette.card, in: RoundedRectangle(cornerRadius: 14))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(MeeplePalette.cardBorder, lineWidth: 1)
+                    )
+                }
+
+                // --- Toggles ---
+                VStack(spacing: 0) {
+                    toggleRow("Sound & Haptics", isOn: $soundAndHapticsEnabled)
+                    Rectangle().fill(MeeplePalette.silver.opacity(0.1)).frame(height: 1)
+                    toggleRow("Keep Screen Awake During Games", isOn: $keepScreenAwakeDuringGames)
+                }
+                .padding(.horizontal, 16)
+                .background(MeeplePalette.card, in: RoundedRectangle(cornerRadius: 14))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(MeeplePalette.cardBorder, lineWidth: 1)
+                )
+
+                // --- Version + About ---
+                VStack(spacing: 0) {
+                    HStack {
+                        Text("Version")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundStyle(.white)
+                        Spacer()
+                        Text(appVersionString)
+                            .font(.system(size: 15))
+                            .foregroundStyle(MeeplePalette.textSecondary)
+                    }
+                    .padding(.vertical, 14)
+
+                    Rectangle().fill(MeeplePalette.silver.opacity(0.1)).frame(height: 1)
+
+                    // Pushes to the existing About screen (developer credit, links, rating).
+                    NavigationLink {
+                        AboutView()
+                    } label: {
+                        HStack {
+                            Text("About Board Game Timer")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundStyle(.white)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundStyle(MeeplePalette.textSecondary)
+                        }
+                        .padding(.vertical, 14)
                     }
                 }
-                .pickerStyle(.segmented)
-            } header: {
-                Text("Appearance")
-            }
+                .padding(.horizontal, 16)
+                .background(MeeplePalette.card, in: RoundedRectangle(cornerRadius: 14))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 14)
+                        .stroke(MeeplePalette.cardBorder, lineWidth: 1)
+                )
 
-            Section {
-                Button(role: .destructive) {
-                    // Setting each @AppStorage value back to its original default is all
-                    // "reset" needs to do — there's no separate "factory settings" file to
-                    // restore from, these three lines ARE the complete set of defaults.
-                    keepScreenAwakeDuringGames = true
-                    hapticFeedbackEnabled = true
-                    soundEffectsEnabled = true
-                    appearancePreferenceRawValue = AppearancePreference.system.rawValue
+                // --- Clear history (destructive, confirmed first) ---
+                Button {
+                    isConfirmingClear = true
                 } label: {
-                    Text("Reset to Defaults")
+                    Text("Clear History")
+                        .font(.system(size: 15, weight: .bold))
+                        .foregroundStyle(MeeplePalette.dangerText)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(MeeplePalette.card, in: RoundedRectangle(cornerRadius: 14))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(Color(hex: 0xB4222B).opacity(0.4), lineWidth: 1)
+                        )
                 }
             }
-
-            // A small, informational footer — common in Settings screens so users (and you,
-            // debugging a bug report) can see exactly which build they're running.
-            Section {
-                HStack {
-                    Text("Version")
-                    Spacer()
-                    Text(appVersionString)
-                        .foregroundStyle(.secondary)
-                }
-            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 24)
         }
-        .navigationTitle("Settings")
+        .background(MeeplePalette.background)
+        // The meeple color sheet for whichever default slot was tapped.
+        .sheet(item: $pickingSlot) { slot in
+            ColorPickerSheet(
+                selectedColorIndex: decodedDefaultColors[slot],
+                onPick: { picked in
+                    var colors = decodedDefaultColors
+                    colors[slot] = picked
+                    // Re-encode back into the CSV string @AppStorage can hold.
+                    defaultColorsCSV = colors.map(String.init).joined(separator: ",")
+                    pickingSlot = nil
+                }
+            )
+        }
+        // The system confirmation dialog guarding the destructive clear.
+        .confirmationDialog(
+            "Clear all history?",
+            isPresented: $isConfirmingClear,
+            titleVisibility: .visible
+        ) {
+            Button("Clear", role: .destructive) {
+                clearHistory()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This permanently deletes all saved games. This cannot be undone.")
+        }
     }
 
-    // Reads the app's version and build numbers directly out of its own Info.plist (filled
-    // in automatically by Xcode from the project's MARKETING_VERSION/CURRENT_PROJECT_VERSION
-    // build settings), so this text is never manually typed and never goes stale.
+    // Decodes the stored "0,1,2,..." string back into an array of ten color indexes.
+    private var decodedDefaultColors: [Int] {
+        let parsed = defaultColorsCSV.split(separator: ",").compactMap { Int($0) }
+        return parsed.count == 10 ? parsed : Array(0..<10)
+    }
+
+    // Deletes every saved GameRecord — this is what actually empties the Statistics tab.
+    private func clearHistory() {
+        // `delete(model:)` is SwiftData's bulk "delete every object of this type" call.
+        try? modelContext.delete(model: GameRecord.self)
+        try? modelContext.save()
+    }
+
+    // Reads version/build straight from the app's own Info.plist so it never goes stale.
     private var appVersionString: String {
         let shortVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
         let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
         return "\(shortVersion) (\(buildNumber))"
+    }
+
+    // The small uppercase gray section label used above each group.
+    private func sectionHeader(_ text: String) -> some View {
+        Text(text.uppercased())
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundStyle(MeeplePalette.textSecondary)
+    }
+
+    // A square minus/plus stepper button.
+    private func stepperButton(_ symbol: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: symbol)
+                .font(.system(size: 15, weight: .bold))
+                .foregroundStyle(MeeplePalette.silver)
+                .frame(width: 34, height: 34)
+                .background(MeeplePalette.control, in: RoundedRectangle(cornerRadius: 9))
+        }
+    }
+
+    // A labeled toggle row, tinted with the silver accent when on.
+    private func toggleRow(_ title: String, isOn: Binding<Bool>) -> some View {
+        Toggle(isOn: isOn) {
+            Text(title)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(.white)
+        }
+        .tint(MeeplePalette.silverDark)
+        .padding(.vertical, 14)
     }
 }
 
@@ -106,4 +240,6 @@ struct SettingsView: View {
     NavigationStack {
         SettingsView()
     }
+    .modelContainer(for: GameRecord.self, inMemory: true)
+    .preferredColorScheme(.dark)
 }
