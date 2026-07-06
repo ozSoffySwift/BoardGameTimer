@@ -117,61 +117,86 @@ struct SplashScreenView: View {
         }
     }
 
-    // The little four-wedge "pie + clock" logo mark, built from the SAME `WedgeShape` used
-    // by the real pie layout (Views/LiveGame/WedgeShape.swift) — this is deliberately not a
-    // separate drawing, so the splash screen's logo always matches whatever the actual pie
-    // visual looks like. It mirrors the app's real AppIcon image, but as live SwiftUI shapes
-    // instead of a flat picture, so it can be scaled/rotated/animated smoothly.
+    // The little four-wedge "pie + clock" logo mark — a live SwiftUI recreation of the
+    // app's Dark Radial Clock icon (same MeeplePalette gradients, same silver-ringed
+    // center), drawn as real shapes rather than a flat picture so it can be scaled,
+    // rotated, and animated smoothly during the splash.
     private var logoMark: some View {
         // Fixed pixel size for the logo, independent of screen size — a splash screen logo
         // should look the same on every device, unlike the pie layout which fills the screen.
         let markSize: CGFloat = 160
 
-        // The same four sample colors used by PlayerRuntimeState.sampleData and by the real
-        // AppIcon image, so the logo, the in-app pie, and the Home Screen icon all agree.
-        let wedgeColors: [Color] = [.red, .teal, .orange, .purple]
-
         return ZStack {
-            // Four quarter-circle wedges, one per color, exactly like PieLayoutView draws
-            // one WedgeShape per player — here there are always exactly 4, standing in for
-            // "players" in the abstract, logo sense rather than a real game's player count.
+            // Four quarter-circle wedges in the icon's palette order (blue, red, yellow,
+            // green — MeeplePalette gradients 0-3), standing in for "players" in the
+            // abstract, logo sense.
             ForEach(0..<4, id: \.self) { index in
-                WedgeShape(seatIndex: index, totalPlayers: 4)
-                    .fill(wedgeColors[index].gradient)
+                SplashQuarterWedge(quarter: index)
+                    .fill(MeeplePalette.gradient(index))
                     .overlay(
-                        WedgeShape(seatIndex: index, totalPlayers: 4)
-                            .stroke(Color(.systemBackground), lineWidth: 3)
+                        SplashQuarterWedge(quarter: index)
+                            .stroke(MeeplePalette.background, lineWidth: 3)
                     )
             }
 
-            // A small white circle standing in for the CenterHubView, with two short "clock
-            // hands" drawn as simple rounded rectangles — enough to read as "a clock" at
-            // small logo size without needing real numbers or a second hand.
+            // The dark center circle with the silver ring, standing in for the active-game
+            // screen's center clock (and matching the app icon).
             Circle()
-                .fill(Color(.systemBackground))
-                .frame(width: markSize * 0.4, height: markSize * 0.4)
+                .fill(MeeplePalette.background)
+                .frame(width: markSize * 0.44, height: markSize * 0.44)
+            Circle()
+                .stroke(MeeplePalette.silver, lineWidth: 2.5)
+                .frame(width: markSize * 0.37, height: markSize * 0.37)
 
             // The shorter "hour" hand, pointing straight up from the center.
             RoundedRectangle(cornerRadius: 2)
-                .fill(Color.primary)
-                .frame(width: 5, height: markSize * 0.18)
-                .offset(y: -markSize * 0.09)
+                .fill(.white)
+                .frame(width: 5, height: markSize * 0.14)
+                .offset(y: -markSize * 0.07)
 
             // The longer "minute" hand, pointing sideways from the center — rotated 90
             // degrees from a vertical rectangle rather than drawn as a separate horizontal
             // shape, just to reuse the same RoundedRectangle code.
             RoundedRectangle(cornerRadius: 2)
-                .fill(Color.primary)
-                .frame(width: 4, height: markSize * 0.14)
+                .fill(.white)
+                .frame(width: 4, height: markSize * 0.11)
                 .rotationEffect(.degrees(90))
-                .offset(x: markSize * 0.07)
+                .offset(x: markSize * 0.055)
 
             // The small dot at the very center where both hands pivot from.
             Circle()
-                .fill(Color.primary)
+                .fill(.white)
                 .frame(width: 7, height: 7)
         }
         .frame(width: markSize, height: markSize)
+    }
+}
+
+// SplashQuarterWedge draws one quarter of the logo's pie: quarter 0 is the top-right slice
+// (12 o'clock to 3 o'clock), and each next quarter continues clockwise. Kept private to
+// the splash screen — the real game screens have their own wedge math sized to the screen.
+private struct SplashQuarterWedge: Shape {
+    // Which quarter (0-3), clockwise from 12 o'clock.
+    let quarter: Int
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        let radius = min(rect.width, rect.height) / 2
+
+        // -90 degrees is 12 o'clock in SwiftUI's angle convention; each quarter spans 90.
+        let startDegrees = Double(quarter) * 90 - 90
+        path.move(to: center)
+        path.addArc(
+            center: center,
+            radius: radius,
+            startAngle: .degrees(startDegrees),
+            endAngle: .degrees(startDegrees + 90),
+            // `false` gives a visually clockwise sweep in SwiftUI's flipped-Y coordinates.
+            clockwise: false
+        )
+        path.closeSubpath()
+        return path
     }
 }
 

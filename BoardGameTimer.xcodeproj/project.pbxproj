@@ -7,89 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DE18F06FB69C4F0C81B238E9 /* BoardGameTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0A07ABE75A43F6BAE0891B /* BoardGameTimerApp.swift */; };
-		13693684B6F84ED0AC000352 /* PlayerRuntimeState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18005971C7F64DF6A3AC0471 /* PlayerRuntimeState.swift */; };
-		614CBAC906BE44CEBC3E7C9F /* TimeFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A5F7097CB94484A6227727 /* TimeFormatting.swift */; };
-		EFC10710255745C0B91ED497 /* PlayerCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C4EECDF81047A3A735FF44 /* PlayerCountView.swift */; };
-		78DEB00A5D5B4F8DA19BE185 /* CenterHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BB26213584DB881E64035 /* CenterHubView.swift */; };
-		3A44FE5B8CCC462A9009FD1E /* LiveGameDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D11BEE429DC449D1A91443E8 /* LiveGameDemoView.swift */; };
-		557598720A974684BFB35D0B /* PieLayoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB32E24BD4B4D50988C8035 /* PieLayoutView.swift */; };
-		6363F2CDD3F4411795FBD7E8 /* PlayerWedgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4D3C2E9E4B40B7BE41CA5F /* PlayerWedgeView.swift */; };
-		473578898151416BB7A72EED /* WedgeShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121B3B80DFCF48CEABB40DFA /* WedgeShape.swift */; };
 		29F3EC35609A400CA695341E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9DAF068A49B427E80F0B47B /* Assets.xcassets */; };
-		A1A0B6F1D1FE42BA9812DE24 /* GamePhase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27568111616F4B52A7F1B9AB /* GamePhase.swift */; };
-		21AE4CDD92E54FE5A44794E8 /* GameSessionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD145D975F04FF1AB2DFB1F /* GameSessionViewModel.swift */; };
-		27036A1E900D4AF0A6143133 /* PhaseBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B578B7DD40544E84BA274EAB /* PhaseBannerView.swift */; };
-		C0E2983EE82848F196759638 /* PlayerListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9FFF57BE3D49EAB81F121C /* PlayerListRowView.swift */; };
-		F2FE134C44E6461DB32F71B7 /* PlayingPhaseListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 962BCC10B0E946AF89A0C403 /* PlayingPhaseListView.swift */; };
-		A12AC0CF61404C3E8B59276F /* SummaryPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */; };
-		8B09A9FB1B5648419AF1007A /* LiveGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0097C645CB4496BBB38874 /* LiveGameView.swift */; };
-		ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */; };
-		AA6600F8FBD64A2F8A1A701E /* BGGGameSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104F7C03593B4C0E8126560F /* BGGGameSummary.swift */; };
-		EF889FD3921249079919739C /* BoardGameGeekService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4E47532DED484D9EEDCF40 /* BoardGameGeekService.swift */; };
-		D643B952E2504B2597F02BA3 /* PlayingPieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5F8A2FC43C45B6AFC5A8D1 /* PlayingPieView.swift */; };
-		4915389E863847E084C3A536 /* BGGSearchResultRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */; };
-		C417DAA5119A46758A3ECBA3 /* FirstPlayerPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */; };
-		4411954C84994E3BBBF266B3 /* MultiTouchDetectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */; };
-		B07BE4804A0F452DB420FBE0 /* AppearancePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DDC04538D243B6ABDB6D44 /* AppearancePreference.swift */; };
-		633FB27FC26F4853929692DD /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */; };
-		A5333969EB734350A088B86D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E552DC0E1E451E905E99F5 /* SettingsView.swift */; };
 		4948F7D6A33242599E71CEA4 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */; };
-		921C0637101444E3B9C76E98 /* MeeplePalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6353232FF114C429BDCA411 /* MeeplePalette.swift */; };
+		4AFA5D9CCB194D418C4B5C35 /* ColorPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */; };
+		614CBAC906BE44CEBC3E7C9F /* TimeFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A5F7097CB94484A6227727 /* TimeFormatting.swift */; };
+		633FB27FC26F4853929692DD /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */; };
 		802DB41A85284F23B09CFB24 /* MeepleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4977E98D1E4610B2149F28 /* MeepleShape.swift */; };
+		89848688976E4425A6E70EA4 /* TimerHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870CC07504E9462AA31A941A /* TimerHomeView.swift */; };
+		8A7E05D18F8843F8A7907858 /* TimerGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */; };
+		8F62D68CAFF04B349C495849 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630D2C471F5B4155B89260E5 /* ResultsView.swift */; };
+		921C0637101444E3B9C76E98 /* MeeplePalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6353232FF114C429BDCA411 /* MeeplePalette.swift */; };
+		A5333969EB734350A088B86D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E552DC0E1E451E905E99F5 /* SettingsView.swift */; };
+		AD68591B7CEA411594055780 /* TimerActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2A1858327C4034A78EDC64 /* TimerActiveView.swift */; };
+		ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */; };
+		C12919515E8E4780B8601781 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825315E17333406ABD6AE80B /* StatisticsView.swift */; };
+		C7E675BB92664C4398562674 /* PlayerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E609F4D29C45F8BE82D6A4 /* PlayerSetupView.swift */; };
+		DE18F06FB69C4F0C81B238E9 /* BoardGameTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0A07ABE75A43F6BAE0891B /* BoardGameTimerApp.swift */; };
 		E6AE69CAE0CA4442A9F04E9D /* GameRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D866FAAAB442B9CB94BA6 /* GameRecord.swift */; };
 		E70CCF9E94A1425BA6CD4636 /* GameSetupDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60663A741974A7C9A4EB953 /* GameSetupDraft.swift */; };
-		8A7E05D18F8843F8A7907858 /* TimerGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */; };
-		89848688976E4425A6E70EA4 /* TimerHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870CC07504E9462AA31A941A /* TimerHomeView.swift */; };
-		C7E675BB92664C4398562674 /* PlayerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E609F4D29C45F8BE82D6A4 /* PlayerSetupView.swift */; };
-		4AFA5D9CCB194D418C4B5C35 /* ColorPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */; };
-		AD68591B7CEA411594055780 /* TimerActiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2A1858327C4034A78EDC64 /* TimerActiveView.swift */; };
-		8F62D68CAFF04B349C495849 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630D2C471F5B4155B89260E5 /* ResultsView.swift */; };
-		C12919515E8E4780B8601781 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825315E17333406ABD6AE80B /* StatisticsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D86E18473D72486A96F05A62 /* BoardGameTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoardGameTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B0A07ABE75A43F6BAE0891B /* BoardGameTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameTimerApp.swift; sourceTree = "<group>"; };
-		18005971C7F64DF6A3AC0471 /* PlayerRuntimeState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerRuntimeState.swift; sourceTree = "<group>"; };
-		E8A5F7097CB94484A6227727 /* TimeFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatting.swift; sourceTree = "<group>"; };
-		52C4EECDF81047A3A735FF44 /* PlayerCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCountView.swift; sourceTree = "<group>"; };
-		860BB26213584DB881E64035 /* CenterHubView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterHubView.swift; sourceTree = "<group>"; };
-		D11BEE429DC449D1A91443E8 /* LiveGameDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveGameDemoView.swift; sourceTree = "<group>"; };
-		6DB32E24BD4B4D50988C8035 /* PieLayoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieLayoutView.swift; sourceTree = "<group>"; };
-		8E4D3C2E9E4B40B7BE41CA5F /* PlayerWedgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerWedgeView.swift; sourceTree = "<group>"; };
-		121B3B80DFCF48CEABB40DFA /* WedgeShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WedgeShape.swift; sourceTree = "<group>"; };
-		F9DAF068A49B427E80F0B47B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		FE1549474DA74002803F48C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		27568111616F4B52A7F1B9AB /* GamePhase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamePhase.swift; sourceTree = "<group>"; };
-		9BD145D975F04FF1AB2DFB1F /* GameSessionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionViewModel.swift; sourceTree = "<group>"; };
-		B578B7DD40544E84BA274EAB /* PhaseBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseBannerView.swift; sourceTree = "<group>"; };
-		2F9FFF57BE3D49EAB81F121C /* PlayerListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListRowView.swift; sourceTree = "<group>"; };
-		962BCC10B0E946AF89A0C403 /* PlayingPhaseListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingPhaseListView.swift; sourceTree = "<group>"; };
-		0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryPlaceholderView.swift; sourceTree = "<group>"; };
-		8F0097C645CB4496BBB38874 /* LiveGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveGameView.swift; sourceTree = "<group>"; };
 		0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
-		104F7C03593B4C0E8126560F /* BGGGameSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGGGameSummary.swift; sourceTree = "<group>"; };
-		3C4E47532DED484D9EEDCF40 /* BoardGameGeekService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameGeekService.swift; sourceTree = "<group>"; };
-		5A5F8A2FC43C45B6AFC5A8D1 /* PlayingPieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayingPieView.swift; sourceTree = "<group>"; };
-		A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGGSearchResultRow.swift; sourceTree = "<group>"; };
-		6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstPlayerPickerView.swift; sourceTree = "<group>"; };
-		28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTouchDetectorView.swift; sourceTree = "<group>"; };
-		29DDC04538D243B6ABDB6D44 /* AppearancePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePreference.swift; sourceTree = "<group>"; };
-		F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		B7E552DC0E1E451E905E99F5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
-		B6353232FF114C429BDCA411 /* MeeplePalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeeplePalette.swift; sourceTree = "<group>"; };
-		BE4977E98D1E4610B2149F28 /* MeepleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeepleShape.swift; sourceTree = "<group>"; };
+		0B0A07ABE75A43F6BAE0891B /* BoardGameTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameTimerApp.swift; sourceTree = "<group>"; };
+		568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSheet.swift; sourceTree = "<group>"; };
+		630D2C471F5B4155B89260E5 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		765D866FAAAB442B9CB94BA6 /* GameRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRecord.swift; sourceTree = "<group>"; };
-		B60663A741974A7C9A4EB953 /* GameSetupDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupDraft.swift; sourceTree = "<group>"; };
-		EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerGameViewModel.swift; sourceTree = "<group>"; };
+		825315E17333406ABD6AE80B /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		870CC07504E9462AA31A941A /* TimerHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerHomeView.swift; sourceTree = "<group>"; };
 		99E609F4D29C45F8BE82D6A4 /* PlayerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerSetupView.swift; sourceTree = "<group>"; };
-		568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSheet.swift; sourceTree = "<group>"; };
+		B60663A741974A7C9A4EB953 /* GameSetupDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupDraft.swift; sourceTree = "<group>"; };
+		B6353232FF114C429BDCA411 /* MeeplePalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeeplePalette.swift; sourceTree = "<group>"; };
+		B7E552DC0E1E451E905E99F5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BE4977E98D1E4610B2149F28 /* MeepleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeepleShape.swift; sourceTree = "<group>"; };
 		CB2A1858327C4034A78EDC64 /* TimerActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerActiveView.swift; sourceTree = "<group>"; };
-		630D2C471F5B4155B89260E5 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
-		825315E17333406ABD6AE80B /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		D86E18473D72486A96F05A62 /* BoardGameTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoardGameTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8A5F7097CB94484A6227727 /* TimeFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatting.swift; sourceTree = "<group>"; };
+		EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerGameViewModel.swift; sourceTree = "<group>"; };
+		F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		F9DAF068A49B427E80F0B47B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FE1549474DA74002803F48C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,12 +61,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		431F5D352C9A40A4BF9AC26A = {
+		010EC3CF75A94B2CA8EE0501 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				3309DEDDDA0E40BBB94AB3C1 /* BoardGameTimer */,
-				15AF4508BD4B4649A85C9A79 /* Products */,
+				E8A5F7097CB94484A6227727 /* TimeFormatting.swift */,
 			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 		15AF4508BD4B4649A85C9A79 /* Products */ = {
@@ -117,6 +75,23 @@
 				D86E18473D72486A96F05A62 /* BoardGameTimer.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		18C466D2C4F24DBAA3F839EA /* Setup */ = {
+			isa = PBXGroup;
+			children = (
+				99E609F4D29C45F8BE82D6A4 /* PlayerSetupView.swift */,
+				568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */,
+			);
+			path = Setup;
+			sourceTree = "<group>";
+		};
+		3294387138F9437BA69C867E /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+				825315E17333406ABD6AE80B /* StatisticsView.swift */,
+			);
+			path = Stats;
 			sourceTree = "<group>";
 		};
 		3309DEDDDA0E40BBB94AB3C1 /* BoardGameTimer */ = {
@@ -133,44 +108,33 @@
 			path = BoardGameTimer;
 			sourceTree = "<group>";
 		};
-		E5AF0B9125AC47D7A01EE817 /* Models */ = {
+		3E15435761A24A0E8EB90151 /* ActiveGame */ = {
 			isa = PBXGroup;
 			children = (
-				18005971C7F64DF6A3AC0471 /* PlayerRuntimeState.swift */,
-				27568111616F4B52A7F1B9AB /* GamePhase.swift */,
-				104F7C03593B4C0E8126560F /* BGGGameSummary.swift */,
-				B6353232FF114C429BDCA411 /* MeeplePalette.swift */,
-				BE4977E98D1E4610B2149F28 /* MeepleShape.swift */,
-				765D866FAAAB442B9CB94BA6 /* GameRecord.swift */,
-				B60663A741974A7C9A4EB953 /* GameSetupDraft.swift */,
-				29DDC04538D243B6ABDB6D44 /* AppearancePreference.swift */,
+				CB2A1858327C4034A78EDC64 /* TimerActiveView.swift */,
 			);
-			path = Models;
+			path = ActiveGame;
 			sourceTree = "<group>";
 		};
-		010EC3CF75A94B2CA8EE0501 /* Utilities */ = {
+		3FACCA742DEB4583AA53D572 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				E8A5F7097CB94484A6227727 /* TimeFormatting.swift */,
-				3C4E47532DED484D9EEDCF40 /* BoardGameGeekService.swift */,
+				B7E552DC0E1E451E905E99F5 /* SettingsView.swift */,
 			);
-			path = Utilities;
+			path = Settings;
 			sourceTree = "<group>";
 		};
-		CDBA523FDD9041CABBA30886 /* ViewModels */ = {
+		431F5D352C9A40A4BF9AC26A = {
 			isa = PBXGroup;
 			children = (
-				9BD145D975F04FF1AB2DFB1F /* GameSessionViewModel.swift */,
-				EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */,
+				3309DEDDDA0E40BBB94AB3C1 /* BoardGameTimer */,
+				15AF4508BD4B4649A85C9A79 /* Products */,
 			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		802049FB1FB341E7B0E469C4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7DA254E6A1A84F10B42DF455 /* PlayerCount */,
-				95E30767062B4FB88C6D39A0 /* LiveGame */,
 				FDE3B011F503492BA14C1468 /* Splash */,
 				95CC1650AA6149058E0DC5F4 /* Home */,
 				18C466D2C4F24DBAA3F839EA /* Setup */,
@@ -184,90 +148,12 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		3FACCA742DEB4583AA53D572 /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				B7E552DC0E1E451E905E99F5 /* SettingsView.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
 		8984B3217D824ACE919A146F /* About */ = {
 			isa = PBXGroup;
 			children = (
 				D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */,
 			);
 			path = About;
-			sourceTree = "<group>";
-		};
-		7DA254E6A1A84F10B42DF455 /* PlayerCount */ = {
-			isa = PBXGroup;
-			children = (
-				52C4EECDF81047A3A735FF44 /* PlayerCountView.swift */,
-				A121FAC5ADCC437E862A1AE4 /* BGGSearchResultRow.swift */,
-				6F239F170B2340A48259B6AC /* FirstPlayerPickerView.swift */,
-				28AC7784D62649DB9741D760 /* MultiTouchDetectorView.swift */,
-			);
-			path = PlayerCount;
-			sourceTree = "<group>";
-		};
-		95E30767062B4FB88C6D39A0 /* LiveGame */ = {
-			isa = PBXGroup;
-			children = (
-				860BB26213584DB881E64035 /* CenterHubView.swift */,
-				D11BEE429DC449D1A91443E8 /* LiveGameDemoView.swift */,
-				6DB32E24BD4B4D50988C8035 /* PieLayoutView.swift */,
-				8E4D3C2E9E4B40B7BE41CA5F /* PlayerWedgeView.swift */,
-				121B3B80DFCF48CEABB40DFA /* WedgeShape.swift */,
-				B578B7DD40544E84BA274EAB /* PhaseBannerView.swift */,
-				2F9FFF57BE3D49EAB81F121C /* PlayerListRowView.swift */,
-				962BCC10B0E946AF89A0C403 /* PlayingPhaseListView.swift */,
-				0209283F54204F0F9A8FDF04 /* SummaryPlaceholderView.swift */,
-				8F0097C645CB4496BBB38874 /* LiveGameView.swift */,
-				5A5F8A2FC43C45B6AFC5A8D1 /* PlayingPieView.swift */,
-			);
-			path = LiveGame;
-			sourceTree = "<group>";
-		};
-		FDE3B011F503492BA14C1468 /* Splash */ = {
-			isa = PBXGroup;
-			children = (
-				0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */,
-			);
-			path = Splash;
-			sourceTree = "<group>";
-		};
-		E8F6EBDE96094F3785A73A77 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				FE1549474DA74002803F48C9 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		95CC1650AA6149058E0DC5F4 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				870CC07504E9462AA31A941A /* TimerHomeView.swift */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		18C466D2C4F24DBAA3F839EA /* Setup */ = {
-			isa = PBXGroup;
-			children = (
-				99E609F4D29C45F8BE82D6A4 /* PlayerSetupView.swift */,
-				568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */,
-			);
-			path = Setup;
-			sourceTree = "<group>";
-		};
-		3E15435761A24A0E8EB90151 /* ActiveGame */ = {
-			isa = PBXGroup;
-			children = (
-				CB2A1858327C4034A78EDC64 /* TimerActiveView.swift */,
-			);
-			path = ActiveGame;
 			sourceTree = "<group>";
 		};
 		8A275C848EB84FFF9FAF847E /* Results */ = {
@@ -278,12 +164,47 @@
 			path = Results;
 			sourceTree = "<group>";
 		};
-		3294387138F9437BA69C867E /* Stats */ = {
+		95CC1650AA6149058E0DC5F4 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				825315E17333406ABD6AE80B /* StatisticsView.swift */,
+				870CC07504E9462AA31A941A /* TimerHomeView.swift */,
 			);
-			path = Stats;
+			path = Home;
+			sourceTree = "<group>";
+		};
+		CDBA523FDD9041CABBA30886 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E5AF0B9125AC47D7A01EE817 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B6353232FF114C429BDCA411 /* MeeplePalette.swift */,
+				BE4977E98D1E4610B2149F28 /* MeepleShape.swift */,
+				765D866FAAAB442B9CB94BA6 /* GameRecord.swift */,
+				B60663A741974A7C9A4EB953 /* GameSetupDraft.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E8F6EBDE96094F3785A73A77 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				FE1549474DA74002803F48C9 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FDE3B011F503492BA14C1468 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */,
+			);
+			path = Splash;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,27 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE18F06FB69C4F0C81B238E9 /* BoardGameTimerApp.swift in Sources */,
-				13693684B6F84ED0AC000352 /* PlayerRuntimeState.swift in Sources */,
 				614CBAC906BE44CEBC3E7C9F /* TimeFormatting.swift in Sources */,
-				EFC10710255745C0B91ED497 /* PlayerCountView.swift in Sources */,
-				78DEB00A5D5B4F8DA19BE185 /* CenterHubView.swift in Sources */,
-				3A44FE5B8CCC462A9009FD1E /* LiveGameDemoView.swift in Sources */,
-				557598720A974684BFB35D0B /* PieLayoutView.swift in Sources */,
-				6363F2CDD3F4411795FBD7E8 /* PlayerWedgeView.swift in Sources */,
-				473578898151416BB7A72EED /* WedgeShape.swift in Sources */,
-				A1A0B6F1D1FE42BA9812DE24 /* GamePhase.swift in Sources */,
-				21AE4CDD92E54FE5A44794E8 /* GameSessionViewModel.swift in Sources */,
-				27036A1E900D4AF0A6143133 /* PhaseBannerView.swift in Sources */,
-				C0E2983EE82848F196759638 /* PlayerListRowView.swift in Sources */,
-				F2FE134C44E6461DB32F71B7 /* PlayingPhaseListView.swift in Sources */,
-				A12AC0CF61404C3E8B59276F /* SummaryPlaceholderView.swift in Sources */,
-				8B09A9FB1B5648419AF1007A /* LiveGameView.swift in Sources */,
-				AA6600F8FBD64A2F8A1A701E /* BGGGameSummary.swift in Sources */,
-				EF889FD3921249079919739C /* BoardGameGeekService.swift in Sources */,
-				D643B952E2504B2597F02BA3 /* PlayingPieView.swift in Sources */,
-				4915389E863847E084C3A536 /* BGGSearchResultRow.swift in Sources */,
-				C417DAA5119A46758A3ECBA3 /* FirstPlayerPickerView.swift in Sources */,
-				4411954C84994E3BBBF266B3 /* MultiTouchDetectorView.swift in Sources */,
 				921C0637101444E3B9C76E98 /* MeeplePalette.swift in Sources */,
 				802DB41A85284F23B09CFB24 /* MeepleShape.swift in Sources */,
 				E6AE69CAE0CA4442A9F04E9D /* GameRecord.swift in Sources */,
@@ -388,7 +289,6 @@
 				AD68591B7CEA411594055780 /* TimerActiveView.swift in Sources */,
 				8F62D68CAFF04B349C495849 /* ResultsView.swift in Sources */,
 				C12919515E8E4780B8601781 /* StatisticsView.swift in Sources */,
-				B07BE4804A0F452DB420FBE0 /* AppearancePreference.swift in Sources */,
 				633FB27FC26F4853929692DD /* MainTabView.swift in Sources */,
 				A5333969EB734350A088B86D /* SettingsView.swift in Sources */,
 				4948F7D6A33242599E71CEA4 /* AboutView.swift in Sources */,
@@ -399,6 +299,34 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		18F76901EF1D4C29AAF7612F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BoardGameTimer/Preview Content\"";
+				DEVELOPMENT_TEAM = 53V722Z7A4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.boardgametimer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		741C15A2B4C44457914221A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -460,6 +388,34 @@
 			};
 			name = Debug;
 		};
+		8E781BB7C17C43DDB4D4CC18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"BoardGameTimer/Preview Content\"";
+				DEVELOPMENT_TEAM = 53V722Z7A4;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.boardgametimer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
 		AFB122B8F6C14BD6BF717EC5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -511,62 +467,6 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		8E781BB7C17C43DDB4D4CC18 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"BoardGameTimer/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.boardgametimer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		18F76901EF1D4C29AAF7612F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"BoardGameTimer/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.boardgametimer;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
