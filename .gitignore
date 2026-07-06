@@ -26,7 +26,3 @@ Package.resolved
 # CocoaPods / Carthage (not used, kept for safety if ever added)
 Pods/
 Carthage/Build/
-
-# Superseded by BoardGameTimer/ (the real Xcode target's source folder) — kept on disk
-# locally but not tracked, to avoid two copies of the same files living in the repo.
-/Sources/

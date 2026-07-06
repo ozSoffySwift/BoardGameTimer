@@ -22,14 +22,14 @@
 		ADBA00DB03144012BCE14260 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */; };
 		C12919515E8E4780B8601781 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825315E17333406ABD6AE80B /* StatisticsView.swift */; };
 		C7E675BB92664C4398562674 /* PlayerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E609F4D29C45F8BE82D6A4 /* PlayerSetupView.swift */; };
-		DE18F06FB69C4F0C81B238E9 /* BoardGameTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0A07ABE75A43F6BAE0891B /* BoardGameTimerApp.swift */; };
+		DE18F06FB69C4F0C81B238E9 /* MeepleClockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0A07ABE75A43F6BAE0891B /* MeepleClockApp.swift */; };
 		E6AE69CAE0CA4442A9F04E9D /* GameRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765D866FAAAB442B9CB94BA6 /* GameRecord.swift */; };
 		E70CCF9E94A1425BA6CD4636 /* GameSetupDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60663A741974A7C9A4EB953 /* GameSetupDraft.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0776CDAEA6B8452DACC5AB0C /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
-		0B0A07ABE75A43F6BAE0891B /* BoardGameTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameTimerApp.swift; sourceTree = "<group>"; };
+		0B0A07ABE75A43F6BAE0891B /* MeepleClockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeepleClockApp.swift; sourceTree = "<group>"; };
 		568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerSheet.swift; sourceTree = "<group>"; };
 		630D2C471F5B4155B89260E5 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
 		765D866FAAAB442B9CB94BA6 /* GameRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRecord.swift; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 		BE4977E98D1E4610B2149F28 /* MeepleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeepleShape.swift; sourceTree = "<group>"; };
 		CB2A1858327C4034A78EDC64 /* TimerActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerActiveView.swift; sourceTree = "<group>"; };
 		D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
-		D86E18473D72486A96F05A62 /* BoardGameTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoardGameTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D86E18473D72486A96F05A62 /* MeepleClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeepleClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8A5F7097CB94484A6227727 /* TimeFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatting.swift; sourceTree = "<group>"; };
 		EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerGameViewModel.swift; sourceTree = "<group>"; };
 		F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 		15AF4508BD4B4649A85C9A79 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D86E18473D72486A96F05A62 /* BoardGameTimer.app */,
+				D86E18473D72486A96F05A62 /* MeepleClock.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -94,10 +94,10 @@
 			path = Stats;
 			sourceTree = "<group>";
 		};
-		3309DEDDDA0E40BBB94AB3C1 /* BoardGameTimer */ = {
+		3309DEDDDA0E40BBB94AB3C1 /* MeepleClock */ = {
 			isa = PBXGroup;
 			children = (
-				0B0A07ABE75A43F6BAE0891B /* BoardGameTimerApp.swift */,
+				0B0A07ABE75A43F6BAE0891B /* MeepleClockApp.swift */,
 				E5AF0B9125AC47D7A01EE817 /* Models */,
 				010EC3CF75A94B2CA8EE0501 /* Utilities */,
 				CDBA523FDD9041CABBA30886 /* ViewModels */,
@@ -105,7 +105,7 @@
 				F9DAF068A49B427E80F0B47B /* Assets.xcassets */,
 				E8F6EBDE96094F3785A73A77 /* Preview Content */,
 			);
-			path = BoardGameTimer;
+			path = MeepleClock;
 			sourceTree = "<group>";
 		};
 		3E15435761A24A0E8EB90151 /* ActiveGame */ = {
@@ -127,7 +127,7 @@
 		431F5D352C9A40A4BF9AC26A = {
 			isa = PBXGroup;
 			children = (
-				3309DEDDDA0E40BBB94AB3C1 /* BoardGameTimer */,
+				3309DEDDDA0E40BBB94AB3C1 /* MeepleClock */,
 				15AF4508BD4B4649A85C9A79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -210,9 +210,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0D6BB7A68A4040FAAE872830 /* BoardGameTimer */ = {
+		0D6BB7A68A4040FAAE872830 /* MeepleClock */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8A75117FC4654791B451A049 /* Build configuration list for PBXNativeTarget "BoardGameTimer" */;
+			buildConfigurationList = 8A75117FC4654791B451A049 /* Build configuration list for PBXNativeTarget "MeepleClock" */;
 			buildPhases = (
 				A4603D0386CD45978C258516 /* Sources */,
 				DDD1AA308F924852AF588E8E /* Frameworks */,
@@ -222,9 +222,9 @@
 			);
 			dependencies = (
 			);
-			name = BoardGameTimer;
-			productName = BoardGameTimer;
-			productReference = D86E18473D72486A96F05A62 /* BoardGameTimer.app */;
+			name = MeepleClock;
+			productName = MeepleClock;
+			productReference = D86E18473D72486A96F05A62 /* MeepleClock.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -242,7 +242,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 685027D088684C2295687149 /* Build configuration list for PBXProject "BoardGameTimer" */;
+			buildConfigurationList = 685027D088684C2295687149 /* Build configuration list for PBXProject "MeepleClock" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -255,7 +255,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0D6BB7A68A4040FAAE872830 /* BoardGameTimer */,
+				0D6BB7A68A4040FAAE872830 /* MeepleClock */,
 			);
 		};
 /* End PBXProject section */
@@ -276,7 +276,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE18F06FB69C4F0C81B238E9 /* BoardGameTimerApp.swift in Sources */,
+				DE18F06FB69C4F0C81B238E9 /* MeepleClockApp.swift in Sources */,
 				614CBAC906BE44CEBC3E7C9F /* TimeFormatting.swift in Sources */,
 				921C0637101444E3B9C76E98 /* MeeplePalette.swift in Sources */,
 				802DB41A85284F23B09CFB24 /* MeepleShape.swift in Sources */,
@@ -304,9 +304,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"BoardGameTimer/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"MeepleClock/Preview Content\"";
 				DEVELOPMENT_TEAM = 53V722Z7A4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -321,8 +322,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.boardgametimer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.meepleclock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -395,9 +397,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"BoardGameTimer/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"MeepleClock/Preview Content\"";
 				DEVELOPMENT_TEAM = 53V722Z7A4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -412,8 +415,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.boardgametimer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.meepleclock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -477,7 +481,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		685027D088684C2295687149 /* Build configuration list for PBXProject "BoardGameTimer" */ = {
+		685027D088684C2295687149 /* Build configuration list for PBXProject "MeepleClock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				741C15A2B4C44457914221A3 /* Debug */,
@@ -486,7 +490,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8A75117FC4654791B451A049 /* Build configuration list for PBXNativeTarget "BoardGameTimer" */ = {
+		8A75117FC4654791B451A049 /* Build configuration list for PBXNativeTarget "MeepleClock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8E781BB7C17C43DDB4D4CC18 /* Debug */,

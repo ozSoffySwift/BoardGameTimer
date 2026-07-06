@@ -49,7 +49,7 @@ struct AboutView: View {
                     Label("LinkedIn", systemImage: "person.crop.rectangle")
                 }
 
-                Link(destination: URL(string: "https://github.com/ozSoffySwift/BoardGameTimer")!) {
+                Link(destination: URL(string: "https://github.com/ozSoffySwift/MeepleClock")!) {
                     Label("GitHub Repository", systemImage: "chevron.left.forwardslash.chevron.right")
                 }
             } header: {

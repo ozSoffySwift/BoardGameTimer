@@ -2,11 +2,11 @@ import SwiftUI
 
 // SplashScreenView is the very first thing shown when the app launches — a brief branding
 // moment (logo animating in, the app's name, and a "Developed by" credit) before the real
-// player-count screen appears. This is DIFFERENT from iOS's built-in static "Launch Screen"
+// app appears. This is DIFFERENT from iOS's built-in static "Launch Screen"
 // (the blank instant placeholder Apple shows while the app is still loading, configured via
 // `INFOPLIST_KEY_UILaunchScreen_Generation` in the Xcode project settings) — that one can't
 // animate or show custom text, so this view exists purely inside our own SwiftUI code,
-// shown for a couple of seconds by BoardGameTimerApp before it swaps to PlayerCountView.
+// shown for a couple of seconds by MeepleClockApp before it swaps to the main tab bar.
 struct SplashScreenView: View {
     // These four `@State` values all start "hidden"/"small" and get animated to their final
     // values once this view appears on screen (see `.onAppear` below). Splitting the logo,

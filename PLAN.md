@@ -588,8 +588,10 @@ full-bleed pie, inset from the edges per the safe-area pitfall noted in Section 
 
 **Naming note (July 2026):** the app's public name is **Meeple Clock** (full App Store
 name "Meeple Clock: Board Game Timer") — "Board Game Timer" was already taken on the App
-Store. Internal identifiers (bundle id `com.ozsoffy.boardgametimer`, Xcode target, repo
-name) deliberately keep the old name.
+Store. The rename was later made TOTAL: bundle id (`com.ozsoffy.meepleclock`), Xcode
+project/target/product (`MeepleClock`), source folder, `MeepleClockApp` entry type, and
+the GitHub repo (`ozSoffySwift/MeepleClock`) all use the new name. Historical mentions of
+"BoardGameTimer" earlier in this document describe the original plan and are left as-is.
 
 The app's UI was rebuilt against an approved Claude Design prototype
 ("Board Game Timer.dc.html" in the user's Claude Design project) — a dark-only visual

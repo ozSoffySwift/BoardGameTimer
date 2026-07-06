@@ -4,7 +4,7 @@ import SwiftData
 // `@main` marks this as the entry point of the whole app — the very first thing that runs
 // when the app launches. Every SwiftUI app needs exactly one type marked `@main`.
 @main
-struct BoardGameTimerApp: App {
+struct MeepleClockApp: App {
     // Whether the branded splash screen is currently covering the real app content.
     // `@State` here lives at the very top of the app, so it survives for as long as the app
     // is running (until the user force-quits it) — starting `true` means every fresh launch
