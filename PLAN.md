@@ -586,6 +586,11 @@ full-bleed pie, inset from the edges per the safe-area pitfall noted in Section 
 
 ## V2 Redesign (imported from Claude Design)
 
+**Naming note (July 2026):** the app's public name is **MeepleClock** (full App Store
+name "MeepleClock: Board Game Timer") — "Board Game Timer" was already taken on the App
+Store. Internal identifiers (bundle id `com.ozsoffy.boardgametimer`, Xcode target, repo
+name) deliberately keep the old name.
+
 The app's UI was rebuilt against an approved Claude Design prototype
 ("Board Game Timer.dc.html" in the user's Claude Design project) — a dark-only visual
 language (near-black `#0A0B0D` backgrounds, silver accents, ten fixed meeple gradients)

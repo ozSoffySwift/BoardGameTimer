@@ -25,10 +25,10 @@ struct AboutView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .shadow(radius: 4)
 
-                    Text("Board Game Timer")
+                    Text("MeepleClock")
                         .font(.system(.title2, design: .rounded).weight(.bold))
 
-                    Text("A timer for tabletop board games with up to 8 players. Set the phone flat in the middle of the table, and every player gets their own wedge of a full-screen radial layout — name, icon, and running time rotated so it reads upright from that player's own seat.")
+                    Text("A chess-clock style board game timer for up to 6 players. Set the phone flat in the middle of the table: every player gets their own gradient wedge of a full-screen radial layout, and tapping your wedge passes the turn to the next player.")
                         .font(.system(.subheadline, design: .rounded))
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
