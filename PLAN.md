@@ -586,8 +586,8 @@ full-bleed pie, inset from the edges per the safe-area pitfall noted in Section 
 
 ## V2 Redesign (imported from Claude Design)
 
-**Naming note (July 2026):** the app's public name is **MeepleClock** (full App Store
-name "MeepleClock: Board Game Timer") — "Board Game Timer" was already taken on the App
+**Naming note (July 2026):** the app's public name is **Meeple Clock** (full App Store
+name "Meeple Clock: Board Game Timer") — "Board Game Timer" was already taken on the App
 Store. Internal identifiers (bundle id `com.ozsoffy.boardgametimer`, Xcode target, repo
 name) deliberately keep the old name.
 

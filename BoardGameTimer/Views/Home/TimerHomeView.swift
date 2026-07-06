@@ -33,7 +33,7 @@ struct TimerHomeView: View {
             VStack(spacing: 28) {
                 // --- Title block ---
                 VStack(spacing: 10) {
-                    Text("MeepleClock")
+                    Text("Meeple Clock")
                         .font(.system(size: 42, weight: .heavy))
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.white)

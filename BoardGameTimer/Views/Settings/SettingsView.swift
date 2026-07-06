@@ -120,7 +120,7 @@ struct SettingsView: View {
                         AboutView()
                     } label: {
                         HStack {
-                            Text("About MeepleClock")
+                            Text("About Meeple Clock")
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(.white)
                             Spacer()

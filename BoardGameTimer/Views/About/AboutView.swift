@@ -25,7 +25,7 @@ struct AboutView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                         .shadow(radius: 4)
 
-                    Text("MeepleClock")
+                    Text("Meeple Clock")
                         .font(.system(.title2, design: .rounded).weight(.bold))
 
                     Text("A chess-clock style board game timer for up to 6 players. Set the phone flat in the middle of the table: every player gets their own gradient wedge of a full-screen radial layout, and tapping your wedge passes the turn to the next player.")

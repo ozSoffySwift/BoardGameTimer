@@ -51,7 +51,7 @@ struct SplashScreenView: View {
                 .rotationEffect(.degrees(logoRotationDegrees))
 
             // The app's name, in the same rounded/bold style used elsewhere in the app.
-            Text("MeepleClock")
+            Text("Meeple Clock")
                 .font(.system(.title, design: .rounded).weight(.bold))
                 .padding(.top, 24)
                 // Only visible once `showAppName` flips to true; fades in/out rather than
@@ -72,7 +72,7 @@ struct SplashScreenView: View {
                 .opacity(showCredit ? 1 : 0)
         }
         // Without this, the VStack only takes up as much width/height as its content
-        // actually needs (just wide enough for the "MeepleClock" text) — the
+        // actually needs (just wide enough for the "Meeple Clock" text) — the
         // background color below would then only fill THAT small box, leaving the real
         // screen underneath visible at the edges. `.frame(maxWidth: .infinity, maxHeight:
         // .infinity)` stretches the VStack to fill all available space first, so the

@@ -1,8 +1,8 @@
-# MeepleClock
+# Meeple Clock
 
-<img src="BoardGameTimer/Assets.xcassets/AppIconPreview.imageset/AppIconPreview.png" width="100" height="100" alt="MeepleClock app icon: a dark four-color radial pie with a silver-ringed clock in the center" align="left">
+<img src="BoardGameTimer/Assets.xcassets/AppIconPreview.imageset/AppIconPreview.png" width="100" height="100" alt="Meeple Clock app icon: a dark four-color radial pie with a silver-ringed clock in the center" align="left">
 
-**MeepleClock: Board Game Timer** — a native SwiftUI iOS app for timing tabletop board
+**Meeple Clock: Board Game Timer** — a native SwiftUI iOS app for timing tabletop board
 games with up to 6 players, chess-clock style. Set the phone flat in the middle of the
 table: every player gets their own gradient wedge of a full-screen radial layout, tapping
 your own wedge passes the turn clockwise, and a per-turn time limit calls out slowpokes
