@@ -75,11 +75,13 @@ Replace all screenshots — every existing one shows the old blocky player figur
 Player Setup shot no longer matches the screen (it gains the Mode chips and, in Countdown, a
 Total Time Per Player field).
 
-Regenerated at **1320 × 2868 (6.9")** from an iPhone 17 Pro Max simulator and stored in
-[`Screenshots/`](Screenshots/).
+**Status: not yet regenerated.** `Screenshots/` still holds the 1.0 captures.
 
-Worth knowing: the 1.0 screenshots were 1242 × 2688, which is the **6.5"** size, even though
-`README.md` claimed 6.9". That has been corrected.
+To be regenerated at **1320 × 2868 (6.9")** from an iPhone 17 Pro Max simulator, which is the
+size App Store Connect wants as the primary iPhone set (it scales down for smaller devices).
+
+Worth knowing: the 1.0 screenshots are 1242 × 2688, which is the **6.5"** size, even though
+`README.md` claimed 6.9". Both should be corrected together.
 
 ## 6. Export compliance
 
