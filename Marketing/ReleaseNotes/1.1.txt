@@ -1,0 +1,18 @@
+Countdown mode is here.
+
+When you set up a game you now pick how the clocks run:
+
+STOPWATCH — exactly as before. Every player's clock counts up, no limit.
+
+COUNTDOWN — each player gets a fixed time bank, 30 minutes by default, that
+counts down as they think. Run out and your clock keeps going in red rather
+than cutting you off, so the table decides what running out means for your
+game. The per-turn limit still works alongside it.
+
+Also in this update:
+
+• The player meeples have been redrawn from scratch as proper Carcassonne-style
+  pawns, replacing the old blocky figures.
+• Results for countdown games show how much time each player had left.
+
+Your saved game history carries over untouched.
