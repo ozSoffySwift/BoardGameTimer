@@ -67,6 +67,7 @@ struct AboutView: View {
             }
         }
         .navigationTitle("About")
+        .trackScreen(.about)
     }
 }
 

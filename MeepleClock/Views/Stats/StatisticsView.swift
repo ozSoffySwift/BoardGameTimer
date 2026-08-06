@@ -78,6 +78,7 @@ struct StatisticsView: View {
             .padding(.bottom, 24)
         }
         .background(MeeplePalette.background)
+        .trackScreen(.statistics)
         // The tapped game's results, read-only (Close instead of Done).
         .sheet(item: $viewingRecord) { record in
             ResultsView(record: record, isReadOnly: true)

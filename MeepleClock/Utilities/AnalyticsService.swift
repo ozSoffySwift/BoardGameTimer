@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import FirebaseAnalytics
 
 // AnalyticsService is the app's ONE point of contact with Firebase.
@@ -13,6 +14,23 @@ import FirebaseAnalytics
 // What is deliberately NOT logged: anything the user typed. No player names, no game names,
 // no saved history. Only counts, durations and which mode was used. See PRIVACY.md.
 enum AnalyticsService {
+
+    // MARK: - Screens
+
+    // Every screen worth counting, named once here so the strings can't drift apart between
+    // views or be misspelled into a second, silently-empty row in the Firebase console.
+    enum Screen: String {
+        case home = "home"
+        case playerSetup = "player_setup"
+        case activeGame = "active_game"
+        case results = "results"
+        // A finished game re-opened from history, as opposed to one that just ended. Worth
+        // separating: they mean very different things about how the app is used.
+        case resultsHistory = "results_history"
+        case statistics = "statistics"
+        case settings = "settings"
+        case about = "about"
+    }
 
     // MARK: - Games
 
@@ -81,8 +99,36 @@ enum AnalyticsService {
     }
 }
 
+// Marks a view as a screen, so Firebase logs a `screen_view` when it appears.
+//
+// THIS IS NOT OPTIONAL PLUMBING — without it the app reports no screens at all.
+//
+// Firebase's "automatic" screen tracking works by hooking `UIViewController.viewDidAppear`.
+// That does nothing in a SwiftUI app like this one: every screen lives inside a single
+// hosting controller, so there is nothing for it to tell apart. Measured on a real device
+// build, the ONLY screens auto-collection ever reported were `UIActivityViewController` (the
+// share sheet) and `PlatformAlertController` (the clear-history dialog) — both presented by
+// the system, neither one of ours. Version 1.1 shipped with no usable screen data because of
+// this. See Reports/Analytics-Coverage.md.
+//
+// Wrapping Firebase's own `.analyticsScreen` here rather than calling it from each view keeps
+// `import FirebaseAnalytics` in this one file, which is the rule the whole service is built
+// around.
+extension View {
+    func trackScreen(_ screen: AnalyticsService.Screen) -> some View {
+        // `class:` would otherwise default to the literal string "View" for every screen,
+        // which is useless in the console; the screen's own name is far more legible.
+        analyticsScreen(name: screen.rawValue, class: screen.rawValue)
+    }
+}
+
+// One thing to know before reading the numbers: `.analyticsScreen` fires on `onAppear`, so it
+// counts APPEARANCES, not unique visits. Navigating away and back logs the screen a second
+// time — which is usually what you want, but it means these are not distinct-user-journey
+// counts. Measured over a ten-step walk through the app, it was exactly 1:1 with navigation
+// (no spurious duplicates from tab switching or sheets); the only repeats were screens
+// genuinely returned to.
+
 // Turn-level events (every pass, every pause, every undo) are deliberately absent. A single
 // long game would fire hundreds of them, which would swamp the far more useful game-level
 // numbers above and burn through Firebase's per-app event quota for no real insight.
-//
-// Screen views need no code here: Firebase collects them automatically.
