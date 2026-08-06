@@ -258,6 +258,7 @@ struct PlayerSetupView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden) // hide the List's default background...
         .background(MeeplePalette.background) // ...so our dark theme shows instead
+        .trackScreen(.playerSetup)
         // Edit mode "active" is what makes the ≡ reorder handles show all the time on the
         // player rows (only rows in a ForEach with .onMove get handles — nothing else on
         // this screen grows any edit controls).

@@ -176,6 +176,7 @@ struct TimerHomeView: View {
             .padding(.bottom, 24)
         }
         .background(MeeplePalette.background)
+        .trackScreen(.home)
         // Full Player Setup flow, pushed as a cover so the game it eventually launches
         // can't be swiped away accidentally.
         .fullScreenCover(item: $setupDraft) { draft in

@@ -140,6 +140,9 @@ struct ResultsView: View {
             .padding(.bottom, 24)
         }
         .background(MeeplePalette.background)
+        // Separated on purpose: a game that just ended and one re-opened from history are the
+        // same view but very different signals about how the app is being used.
+        .trackScreen(isReadOnly ? .resultsHistory : .results)
     }
 }
 

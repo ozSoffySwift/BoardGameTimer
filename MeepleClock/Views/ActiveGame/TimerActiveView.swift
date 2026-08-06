@@ -190,6 +190,9 @@ struct TimerActiveView: View {
         .onDisappear {
             UIApplication.shared.isIdleTimerDisabled = false
         }
+        // On `gameBody` rather than on `body`, so swapping this same cover over to the results
+        // screen at the end of a game doesn't re-log the game screen.
+        .trackScreen(.activeGame)
     }
 
     // The active player's name for the center circle's "<name> turn" line.

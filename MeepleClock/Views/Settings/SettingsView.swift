@@ -158,6 +158,7 @@ struct SettingsView: View {
             .padding(.bottom, 24)
         }
         .background(MeeplePalette.background)
+        .trackScreen(.settings)
         // The meeple color sheet for whichever default slot was tapped.
         .sheet(item: $pickingSlot) { slot in
             ColorPickerSheet(
