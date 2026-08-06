@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 // GameSetupDraft holds everything the Player Setup screen is editing BEFORE a game starts:
-// how many players, their names/colors, the game's name, the per-turn time limit, and who
+// the mode, how many players, their names/colors, the game's name, the time limits, and who
 // goes first. It's `@Observable` so the setup screen's controls bind straight to it, and
 // it's separate from TimerGameViewModel because a draft can be abandoned (back button)
 // without ever becoming a real running game.
@@ -14,20 +14,37 @@ final class GameSetupDraft {
         case random      // pick a random seat when the game actually starts
     }
 
+    // Count up (stopwatch) or down from a per-player budget (countdown). The first choice on
+    // the setup screen, because it changes which time fields are worth showing.
+    var mode: GameMode = .stopwatch
+
     // The players being configured, in seat order. Grows/shrinks as the count changes.
     var players: [TimerPlayer]
 
     // The game's (optional) display name, e.g. "Catan Night".
     var gameName = ""
 
-    // Per-turn limit in seconds (10-300, stepping by 5, per the design's slider).
+    // Per-turn limit in seconds (10-300, stepping by 5, per the design's slider). Applies in
+    // BOTH modes — a countdown game still flags a turn that's dragging on.
     var turnLimitSeconds: Int
+
+    // Countdown only: each player's total time bank in seconds (5-180 minutes, stepping by a
+    // minute). Ignored entirely in stopwatch mode.
+    var totalTimePerPlayerSeconds: Int = GameSetupDraft.defaultTotalTimePerPlayerSeconds
 
     // Who takes the first turn.
     var firstPlayerChoice: FirstPlayerChoice = .player(0)
 
     // How many players are in the draft right now (convenience for the count chips).
     var playerCount: Int { players.count }
+
+    // --- The countdown bank's allowed range, kept here so the setup screen's stepper and
+    //     slider can't drift apart from each other. ---
+
+    static let defaultTotalTimePerPlayerSeconds = 30 * 60 // 30 minutes
+    static let minTotalTimePerPlayerSeconds = 5 * 60      // 5 minutes
+    static let maxTotalTimePerPlayerSeconds = 180 * 60    // 3 hours
+    static let totalTimeStepSeconds = 60                  // adjust a minute at a time
 
     // Builds a fresh draft using the user's saved defaults from the Settings tab:
     // `defaultTurnLimit` seeds the time slider, and `defaultColors` decides which meeple

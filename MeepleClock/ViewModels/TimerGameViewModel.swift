@@ -25,6 +25,12 @@ struct TimerPlayer: Identifiable {
 // per-turn time limit that flips the display into red "overtime" (with a beep) when
 // exceeded, a one-level undo, pause/resume, and a round counter.
 //
+// Countdown games run on this same engine. Time is ALWAYS banked upward internally; a
+// countdown game just subtracts that from each player's budget for display (see
+// `secondsRemaining(for:at:)`) and adds a second alarm for the moment a budget runs out. That
+// means the drift-free date math below is identical in both modes, and neither mode can drift
+// away from the other as the app changes.
+//
 // `@Observable` (iOS 17) makes every stored property below watchable by SwiftUI — views
 // that read them redraw automatically when they change, with no extra plumbing.
 @Observable
@@ -38,10 +44,18 @@ final class TimerGameViewModel: Identifiable {
     // The game's display name, e.g. "Catan Night" — empty means untitled.
     let gameName: String
 
+    // Whether clocks count up from zero or down from a per-player budget.
+    let mode: GameMode
+
     // The per-turn limit in seconds. Turns aren't force-ended at the limit; the active
     // player's display just turns red (and a beep fires) so the table can apply social
     // pressure — matching the design's "overtime" behavior rather than a hard cutoff.
+    // Applies in BOTH modes.
     let turnLimitSeconds: Int
+
+    // Countdown only: how much total thinking time each player started with. Meaningless in
+    // stopwatch mode, where nothing is ever subtracted from it.
+    let totalTimePerPlayerSeconds: Int
 
     // Whose turn it is right now (index into `players`).
     private(set) var activeIndex: Int
@@ -60,6 +74,13 @@ final class TimerGameViewModel: Identifiable {
     // computed) so views can animate/tint on its change, and so the beep can fire exactly
     // once on the moment it flips.
     private(set) var isOvertime = false
+
+    // Countdown only: which seats have already spent their whole time bank. Stored as a set
+    // (rather than recomputed from the clocks) for one reason: it's what makes the
+    // "out of time" alarm fire exactly ONCE per player. A player who runs out keeps playing
+    // — and keeps counting further into the red — so a purely computed "is this player out"
+    // would re-trigger the alarm on every pause, undo, and turn change afterwards.
+    private(set) var exhaustedSeats: Set<Int> = []
 
     // Whether Sound & Haptics is enabled — copied from Settings when the game starts.
     private let soundAndHapticsEnabled: Bool
@@ -85,6 +106,9 @@ final class TimerGameViewModel: Identifiable {
         var round: Int
         var turnAccumulated: TimeInterval
         var turnStartDate: Date?
+        // Included so undoing the pass that tipped someone over zero also takes back the
+        // "already alarmed" mark — otherwise the alarm would never sound again for them.
+        var exhaustedSeats: Set<Int>
     }
     private var undoSnapshot: Snapshot?
 
@@ -96,12 +120,27 @@ final class TimerGameViewModel: Identifiable {
     // pauses, or the game ends.
     private var overtimeWatchTask: Task<Void, Never>?
 
+    // Countdown only: the matching task waiting for the ACTIVE player's time bank to hit
+    // zero. Kept separate from the overtime watcher because the two alarms are independent —
+    // in a countdown game a single turn can trip both.
+    private var bankWatchTask: Task<Void, Never>?
+
     // Builds and immediately STARTS a game (the design goes straight from "Start Game"
     // into a running clock — there's no separate "press start" step on the timer screen).
-    init(players: [TimerPlayer], gameName: String, turnLimitSeconds: Int, firstPlayerIndex: Int, soundAndHapticsEnabled: Bool) {
+    init(
+        players: [TimerPlayer],
+        gameName: String,
+        mode: GameMode = .stopwatch,
+        turnLimitSeconds: Int,
+        totalTimePerPlayerSeconds: Int = GameSetupDraft.defaultTotalTimePerPlayerSeconds,
+        firstPlayerIndex: Int,
+        soundAndHapticsEnabled: Bool
+    ) {
         self.players = players
         self.gameName = gameName
+        self.mode = mode
         self.turnLimitSeconds = turnLimitSeconds
+        self.totalTimePerPlayerSeconds = totalTimePerPlayerSeconds
         // Wrap out-of-range first player indexes back into range rather than crashing.
         let safeFirst = players.isEmpty ? 0 : firstPlayerIndex % players.count
         self.activeIndex = safeFirst
@@ -111,7 +150,7 @@ final class TimerGameViewModel: Identifiable {
         let now = Date()
         self.turnStartDate = now
         self.gameStartDate = now
-        scheduleOvertimeWatch()
+        scheduleAlarms()
     }
 
     // --- Reading the clocks (called every TimelineView tick by the views) ---
@@ -136,6 +175,29 @@ final class TimerGameViewModel: Identifiable {
         return index == activeIndex ? banked + turnElapsed(at: now) : banked
     }
 
+    // Countdown only: how much of a player's time bank is left. Goes NEGATIVE once they've
+    // spent it all — running out is soft, so the clock keeps counting to show how far over
+    // they are rather than freezing at zero.
+    func secondsRemaining(for index: Int, at now: Date = Date()) -> TimeInterval {
+        Double(totalTimePerPlayerSeconds) - secondsUsed(for: index, at: now)
+    }
+
+    // What a player's wedge should actually display: time used counting up in stopwatch
+    // games, time remaining counting down in countdown games. Having the engine answer this
+    // keeps the mode check out of the view.
+    func displaySeconds(for index: Int, at now: Date = Date()) -> TimeInterval {
+        switch mode {
+        case .stopwatch: return secondsUsed(for: index, at: now)
+        case .countdown: return secondsRemaining(for: index, at: now)
+        }
+    }
+
+    // Whether this player has spent their whole bank — always false in stopwatch mode, where
+    // there's no bank to spend.
+    func isOutOfTime(_ index: Int) -> Bool {
+        exhaustedSeats.contains(index)
+    }
+
     // --- Game actions ---
 
     // Ends the active player's turn and starts the next seat clockwise. Saves an undo
@@ -154,7 +216,8 @@ final class TimerGameViewModel: Identifiable {
             activeIndex: activeIndex,
             round: round,
             turnAccumulated: turnElapsed(at: now),
-            turnStartDate: turnStartDate
+            turnStartDate: turnStartDate,
+            exhaustedSeats: exhaustedSeats
         )
 
         // Bank the ending player's full turn time into their total.
@@ -171,7 +234,7 @@ final class TimerGameViewModel: Identifiable {
         turnAccumulated = 0
         turnStartDate = now
         isOvertime = false
-        scheduleOvertimeWatch()
+        scheduleAlarms()
         playTurnFeedback()
     }
 
@@ -184,12 +247,13 @@ final class TimerGameViewModel: Identifiable {
         activeIndex = snapshot.activeIndex
         round = snapshot.round
         turnAccumulated = snapshot.turnAccumulated
+        exhaustedSeats = snapshot.exhaustedSeats
         // Resume the restored turn from NOW (not its original start date), so the time
         // spent on the mistaken turn isn't silently charged to the restored player.
         turnStartDate = isPaused ? nil : Date()
         undoSnapshot = nil
         isOvertime = turnAccumulated >= Double(turnLimitSeconds)
-        scheduleOvertimeWatch()
+        scheduleAlarms()
     }
 
     // Freezes/unfreezes both clocks (turn + whole game) together.
@@ -200,7 +264,7 @@ final class TimerGameViewModel: Identifiable {
             turnStartDate = now
             gameStartDate = now
             isPaused = false
-            scheduleOvertimeWatch()
+            scheduleAlarms()
         } else {
             // Pausing: fold whatever has run so far into the banked halves, then stop.
             turnAccumulated = turnElapsed(at: now)
@@ -208,7 +272,7 @@ final class TimerGameViewModel: Identifiable {
             turnStartDate = nil
             gameStartDate = nil
             isPaused = true
-            overtimeWatchTask?.cancel()
+            cancelAlarms()
         }
     }
 
@@ -223,7 +287,7 @@ final class TimerGameViewModel: Identifiable {
         }
         turnStartDate = nil
         gameStartDate = nil
-        overtimeWatchTask?.cancel()
+        cancelAlarms()
 
         return GameRecord(
             date: now,
@@ -231,19 +295,34 @@ final class TimerGameViewModel: Identifiable {
             rounds: round,
             players: players.map {
                 PlayerResult(name: $0.name, colorIndex: $0.colorIndex, secondsUsed: Int($0.bankedSeconds.rounded()))
-            }
+            },
+            mode: mode,
+            totalTimePerPlayerSeconds: mode == .countdown ? totalTimePerPlayerSeconds : nil
         )
     }
 
-    // --- Overtime detection ---
+    // --- Alarms ---
 
-    // Schedules (or reschedules) the background wait that flips `isOvertime` and beeps the
-    // instant the current turn crosses the limit. Cancelling and recreating the task on
-    // every turn change/pause is what keeps exactly ONE watcher alive for the current turn.
-    private func scheduleOvertimeWatch() {
-        overtimeWatchTask?.cancel()
+    // Schedules (or reschedules) BOTH background waits for the current turn: the per-turn
+    // overtime alarm, and — in countdown games — the active player's time-bank alarm.
+    // Cancelling and recreating them on every turn change, pause, undo and resume is what
+    // keeps exactly ONE of each alive at a time.
+    private func scheduleAlarms() {
+        cancelAlarms()
         guard !isPaused else { return }
+        scheduleOvertimeWatch()
+        scheduleBankWatch()
+    }
 
+    // Stops both waits — used when pausing and when the game ends.
+    private func cancelAlarms() {
+        overtimeWatchTask?.cancel()
+        bankWatchTask?.cancel()
+    }
+
+    // The wait that flips `isOvertime` and beeps the instant the current TURN crosses the
+    // per-turn limit.
+    private func scheduleOvertimeWatch() {
         // How much of the limit is left for this turn. Already over (e.g. after an undo
         // back into an overtime turn)? Mark it immediately, no beep replay.
         let remaining = Double(turnLimitSeconds) - turnElapsed()
@@ -259,6 +338,36 @@ final class TimerGameViewModel: Identifiable {
             guard let self, !Task.isCancelled else { return }
             self.isOvertime = true
             self.playLimitAlert()
+        }
+    }
+
+    // Countdown only: the wait that marks the active player out of time and sounds the alarm
+    // the instant their whole bank is spent. Their clock then carries on into negative
+    // numbers — this alarm is a notification, not a cutoff.
+    private func scheduleBankWatch() {
+        guard mode == .countdown else { return }
+        let seat = activeIndex
+        // Already flagged? Then they've had their alarm; don't sound it again every time the
+        // turn is undone, paused, or handed back to them.
+        guard !exhaustedSeats.contains(seat) else { return }
+
+        let remaining = secondsRemaining(for: seat)
+        guard remaining > 0 else {
+            // Somehow already past zero without having been flagged (e.g. an undo restored a
+            // state from before the flag existed) — flag it now, silently.
+            exhaustedSeats.insert(seat)
+            return
+        }
+
+        bankWatchTask = Task { [weak self] in
+            try? await Task.sleep(nanoseconds: UInt64(remaining * 1_000_000_000))
+            guard let self, !Task.isCancelled else { return }
+            self.exhaustedSeats.insert(seat)
+            self.playLimitAlert()
+            AnalyticsService.playerOutOfTime(
+                playerCount: self.players.count,
+                totalTimePerPlayerSeconds: self.totalTimePerPlayerSeconds
+            )
         }
     }
 

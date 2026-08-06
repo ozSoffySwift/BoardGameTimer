@@ -194,9 +194,12 @@ struct SettingsView: View {
 
     // Deletes every saved GameRecord — this is what actually empties the Statistics tab.
     private func clearHistory() {
+        // Counted before the delete, so the event records how much was actually thrown away.
+        let gameCount = (try? modelContext.fetchCount(FetchDescriptor<GameRecord>())) ?? 0
         // `delete(model:)` is SwiftData's bulk "delete every object of this type" call.
         try? modelContext.delete(model: GameRecord.self)
         try? modelContext.save()
+        AnalyticsService.historyCleared(gameCount: gameCount)
     }
 
     // Reads version/build straight from the app's own Info.plist so it never goes stale.

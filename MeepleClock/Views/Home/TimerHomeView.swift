@@ -200,6 +200,7 @@ struct TimerHomeView: View {
 
     // Launches an instant game with default names/colors and the saved default turn time.
     private func startQuickGame(playerCount: Int) {
+        AnalyticsService.quickGameStarted(playerCount: playerCount)
         let colors = decodedDefaultColors
         let players = (0..<playerCount).map { seat in
             TimerPlayer(name: "Player \(seat + 1)", colorIndex: colors[seat % max(colors.count, 1)])
@@ -207,6 +208,9 @@ struct TimerHomeView: View {
         quickGame = TimerGameViewModel(
             players: players,
             gameName: "Quick Game",
+            // Quick Start stays a plain stopwatch: setting up a time bank is exactly the
+            // kind of decision this button exists to skip. Countdown is a Player Setup choice.
+            mode: .stopwatch,
             turnLimitSeconds: defaultTurnLimitSeconds,
             firstPlayerIndex: 0,
             soundAndHapticsEnabled: soundAndHapticsEnabled

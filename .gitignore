@@ -18,7 +18,8 @@ xcuserdata/
 
 # Swift Package Manager
 .build/
-Package.resolved
+# Package.resolved is deliberately NOT ignored: this is an app target, not a library,
+# so the lockfile has to be committed or builds aren't reproducible across machines/CI.
 
 # macOS
 .DS_Store

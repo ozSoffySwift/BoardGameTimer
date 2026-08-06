@@ -8,11 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		29F3EC35609A400CA695341E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9DAF068A49B427E80F0B47B /* Assets.xcassets */; };
+		A1DF16A88BEA4259A058EB91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 9C4835403D36476F9FB1933C /* FirebaseAnalytics */; };
+		99FB64A40D1C48839CE25435 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 163AE50B537C4DE98F8A4447 /* GoogleService-Info.plist */; };
 		4948F7D6A33242599E71CEA4 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */; };
 		4AFA5D9CCB194D418C4B5C35 /* ColorPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568DA7B527E545FEAAD852CB /* ColorPickerSheet.swift */; };
 		614CBAC906BE44CEBC3E7C9F /* TimeFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A5F7097CB94484A6227727 /* TimeFormatting.swift */; };
 		633FB27FC26F4853929692DD /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */; };
 		802DB41A85284F23B09CFB24 /* MeepleShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4977E98D1E4610B2149F28 /* MeepleShape.swift */; };
+		720BA3CA5F9648778CEAB9FD /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9CD90DBE91D42198BDB3D26 /* AnalyticsService.swift */; };
+		504B97274B4B401D9EDD8B88 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042CC8BF3B9C4CD38A8CE28A /* GameMode.swift */; };
 		89848688976E4425A6E70EA4 /* TimerHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870CC07504E9462AA31A941A /* TimerHomeView.swift */; };
 		8A7E05D18F8843F8A7907858 /* TimerGameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */; };
 		8F62D68CAFF04B349C495849 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630D2C471F5B4155B89260E5 /* ResultsView.swift */; };
@@ -40,6 +44,8 @@
 		B6353232FF114C429BDCA411 /* MeeplePalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeeplePalette.swift; sourceTree = "<group>"; };
 		B7E552DC0E1E451E905E99F5 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BE4977E98D1E4610B2149F28 /* MeepleShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeepleShape.swift; sourceTree = "<group>"; };
+		C9CD90DBE91D42198BDB3D26 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		042CC8BF3B9C4CD38A8CE28A /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		CB2A1858327C4034A78EDC64 /* TimerActiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerActiveView.swift; sourceTree = "<group>"; };
 		D4D1A1CE6F624945A6C9FA4B /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		D86E18473D72486A96F05A62 /* MeepleClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MeepleClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +53,7 @@
 		EBCAF26F6F544A989DB63B76 /* TimerGameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerGameViewModel.swift; sourceTree = "<group>"; };
 		F5B7D0ED0DA64F7F9593D205 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		F9DAF068A49B427E80F0B47B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		163AE50B537C4DE98F8A4447 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FE1549474DA74002803F48C9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1DF16A88BEA4259A058EB91 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +72,7 @@
 		010EC3CF75A94B2CA8EE0501 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C9CD90DBE91D42198BDB3D26 /* AnalyticsService.swift */,
 				E8A5F7097CB94484A6227727 /* TimeFormatting.swift */,
 			);
 			path = Utilities;
@@ -103,6 +112,7 @@
 				CDBA523FDD9041CABBA30886 /* ViewModels */,
 				802049FB1FB341E7B0E469C4 /* Views */,
 				F9DAF068A49B427E80F0B47B /* Assets.xcassets */,
+				163AE50B537C4DE98F8A4447 /* GoogleService-Info.plist */,
 				E8F6EBDE96094F3785A73A77 /* Preview Content */,
 			);
 			path = MeepleClock;
@@ -185,6 +195,7 @@
 			children = (
 				B6353232FF114C429BDCA411 /* MeeplePalette.swift */,
 				BE4977E98D1E4610B2149F28 /* MeepleShape.swift */,
+				042CC8BF3B9C4CD38A8CE28A /* GameMode.swift */,
 				765D866FAAAB442B9CB94BA6 /* GameRecord.swift */,
 				B60663A741974A7C9A4EB953 /* GameSetupDraft.swift */,
 			);
@@ -223,6 +234,9 @@
 			dependencies = (
 			);
 			name = MeepleClock;
+			packageProductDependencies = (
+				9C4835403D36476F9FB1933C /* FirebaseAnalytics */,
+			);
 			productName = MeepleClock;
 			productReference = D86E18473D72486A96F05A62 /* MeepleClock.app */;
 			productType = "com.apple.product-type.application";
@@ -251,6 +265,9 @@
 				Base,
 			);
 			mainGroup = 431F5D352C9A40A4BF9AC26A;
+			packageReferences = (
+				B0B04924A0E14D0F8481FC73 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 15AF4508BD4B4649A85C9A79 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -266,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				29F3EC35609A400CA695341E /* Assets.xcassets in Resources */,
+				99FB64A40D1C48839CE25435 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +298,8 @@
 				614CBAC906BE44CEBC3E7C9F /* TimeFormatting.swift in Sources */,
 				921C0637101444E3B9C76E98 /* MeeplePalette.swift in Sources */,
 				802DB41A85284F23B09CFB24 /* MeepleShape.swift in Sources */,
+				720BA3CA5F9648778CEAB9FD /* AnalyticsService.swift in Sources */,
+				504B97274B4B401D9EDD8B88 /* GameMode.swift in Sources */,
 				E6AE69CAE0CA4442A9F04E9D /* GameRecord.swift in Sources */,
 				E70CCF9E94A1425BA6CD4636 /* GameSetupDraft.swift in Sources */,
 				8A7E05D18F8843F8A7907858 /* TimerGameViewModel.swift in Sources */,
@@ -306,7 +326,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"MeepleClock/Preview Content\"";
 				DEVELOPMENT_TEAM = 53V722Z7A4;
 				ENABLE_PREVIEWS = YES;
@@ -322,7 +342,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.meepleclock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -400,7 +420,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"MeepleClock/Preview Content\"";
 				DEVELOPMENT_TEAM = 53V722Z7A4;
 				ENABLE_PREVIEWS = YES;
@@ -416,7 +436,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ozsoffy.meepleclock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -502,6 +522,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B0B04924A0E14D0F8481FC73 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.17.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9C4835403D36476F9FB1933C /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B0B04924A0E14D0F8481FC73 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F676A4798CBF43C29EBF880E /* Project object */;
 }

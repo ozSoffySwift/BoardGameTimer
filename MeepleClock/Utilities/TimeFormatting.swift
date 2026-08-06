@@ -25,4 +25,37 @@ extension TimeInterval {
         // zero-padded, so we show "1:07" rather than "01:07".
         return String(format: "%d:%02d", minutes, seconds)
     }
+
+    // The same "M:SS" format, but correct for NEGATIVE times: "-1:07" rather than "-1:-07".
+    //
+    // Countdown games need this because a player who spends their whole time bank keeps
+    // counting past zero into the red — running out is deliberately soft, so the clock has to
+    // be able to say how far over they are. `asClockString` can't do it on its own: Swift's
+    // integer division and remainder both keep the sign, so -67 seconds would come out as
+    // minutes = -1 and seconds = -7, printing "-1:-07". Stripping the sign first and putting
+    // a single "-" on the front is the whole fix.
+    var asSignedClockString: String {
+        // `< -0.5` rather than `< 0` so a value a hair under zero (say -0.2 of a second,
+        // which rounds to "0:00") isn't labelled "-0:00".
+        let isNegative = self < -0.5
+        return (isNegative ? "-" : "") + abs(self).asClockString
+    }
+
+    // A friendly duration for the setup fields that deal in minutes rather than seconds,
+    // e.g. "30 min", "1 hr", "1 hr 30 min".
+    //
+    // The M:SS clock format above is right for a running game clock but wrong for a time
+    // BUDGET: a 90-minute bank would render as "90:00", which reads like ninety seconds at
+    // a glance. Spelling out the units removes the ambiguity.
+    var asMinutesLabel: String {
+        let totalMinutes = Int((self / 60).rounded())
+        let hours = totalMinutes / 60
+        let minutes = totalMinutes % 60
+
+        switch (hours, minutes) {
+        case (0, _): return "\(minutes) min"
+        case (_, 0): return "\(hours) hr"
+        default: return "\(hours) hr \(minutes) min"
+        }
+    }
 }

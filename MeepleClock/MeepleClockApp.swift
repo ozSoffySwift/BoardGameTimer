@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import FirebaseCore
 
 // `@main` marks this as the entry point of the whole app — the very first thing that runs
 // when the app launches. Every SwiftUI app needs exactly one type marked `@main`.
@@ -10,6 +11,15 @@ struct MeepleClockApp: App {
     // is running (until the user force-quits it) — starting `true` means every fresh launch
     // shows the splash screen first.
     @State private var isShowingSplash = true
+
+    // Starts Firebase before any view exists. It has to happen here, in `init`, rather than
+    // in an `.onAppear`: `Analytics.logEvent` silently drops anything logged before
+    // `configure()` runs, and this is the only place guaranteed to be earlier than every
+    // screen. It reads GoogleService-Info.plist from the app bundle — see
+    // Marketing/Firebase-Setup.md for where that file comes from.
+    init() {
+        FirebaseApp.configure()
+    }
 
     // `body` describes the app's overall window/scene structure. For a simple, single-window
     // iPhone app like this one, that's almost always just one `WindowGroup`.

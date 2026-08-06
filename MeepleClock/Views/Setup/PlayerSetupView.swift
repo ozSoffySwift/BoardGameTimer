@@ -50,6 +50,49 @@ struct PlayerSetupView: View {
                 }
                 .setupRow(top: 4, bottom: 10)
 
+                // --- Mode: the very first choice, because it decides which time fields
+                //     below are worth showing at all ---
+                VStack(alignment: .leading, spacing: 8) {
+                    sectionHeader("Mode")
+                    HStack(spacing: 8) {
+                        ForEach(GameMode.allCases, id: \.self) { mode in
+                            let isSelected = mode == draft.mode
+                            Button {
+                                draft.mode = mode
+                            } label: {
+                                Text(mode.title)
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundStyle(isSelected ? MeeplePalette.background : MeeplePalette.silver)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 46)
+                                    // Same silver-gradient-when-selected treatment as the
+                                    // player count chips below, so the two rows of chips
+                                    // read as one family of controls.
+                                    .background(
+                                        Group {
+                                            if isSelected {
+                                                RoundedRectangle(cornerRadius: 12).fill(MeeplePalette.silverGradient)
+                                            } else {
+                                                RoundedRectangle(cornerRadius: 12).fill(MeeplePalette.card)
+                                            }
+                                        }
+                                    )
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(isSelected ? Color.clear : MeeplePalette.cardBorder, lineWidth: 1)
+                                    )
+                            }
+                            .buttonStyle(.borderless)
+                        }
+                    }
+                    // One line of plain English under the chips, so the difference between
+                    // the two modes never needs to be guessed at.
+                    Text(draft.mode.explanation)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(MeeplePalette.textSecondary)
+                }
+                .setupRow()
+
                 // --- Player count chips (1-6), spanning the full row width with big,
                 //     easily-tappable numbers ---
                 VStack(alignment: .leading, spacing: 8) {
@@ -148,43 +191,28 @@ struct PlayerSetupView: View {
                 }
                 .setupRow()
 
-                // --- Per-turn time limit ---
-                VStack(alignment: .leading, spacing: 10) {
-                    sectionHeader("Time per player")
-                    VStack(spacing: 12) {
-                        HStack {
-                            // The big monospaced time readout, e.g. "1:00".
-                            Text(TimeInterval(draft.turnLimitSeconds).asClockString)
-                                .font(.system(size: 26, weight: .heavy, design: .monospaced))
-                                .foregroundStyle(.white)
-                            Spacer()
-                            // Minus/plus step by 5 seconds, clamped to the 10-300 range.
-                            stepperButton("minus") {
-                                draft.turnLimitSeconds = max(10, draft.turnLimitSeconds - 5)
-                            }
-                            stepperButton("plus") {
-                                draft.turnLimitSeconds = min(300, draft.turnLimitSeconds + 5)
-                            }
-                        }
-                        // The slider binds through a Double conversion (Slider only speaks
-                        // Double); `step: 5` keeps it on the same 5-second grid as the buttons.
-                        Slider(
-                            value: Binding(
-                                get: { Double(draft.turnLimitSeconds) },
-                                set: { draft.turnLimitSeconds = Int($0) }
-                            ),
-                            in: 10...300,
-                            step: 5
-                        )
-                        .tint(MeeplePalette.silver)
-                    }
-                    .padding(16)
-                    .background(MeeplePalette.card, in: RoundedRectangle(cornerRadius: 14))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(MeeplePalette.cardBorder, lineWidth: 1)
+                // --- Countdown only: each player's total time bank. Sits ABOVE the per-turn
+                //     limit because it's the bigger, more consequential number. ---
+                if draft.mode == .countdown {
+                    timeCard(
+                        title: "Total time per player",
+                        seconds: $draft.totalTimePerPlayerSeconds,
+                        range: GameSetupDraft.minTotalTimePerPlayerSeconds...GameSetupDraft.maxTotalTimePerPlayerSeconds,
+                        step: GameSetupDraft.totalTimeStepSeconds,
+                        label: { TimeInterval($0).asMinutesLabel }
                     )
+                    .setupRow()
                 }
+
+                // --- Per-turn time limit. Applies in BOTH modes: a countdown player can
+                //     still hog a single turn without emptying their whole bank. ---
+                timeCard(
+                    title: "Time per turn",
+                    seconds: $draft.turnLimitSeconds,
+                    range: 10...300,
+                    step: 5,
+                    label: { TimeInterval($0).asClockString }
+                )
                 .setupRow()
 
                 // --- First player picker (hidden for solo games, where there's no choice) ---
@@ -258,6 +286,56 @@ struct PlayerSetupView: View {
             .foregroundStyle(MeeplePalette.textSecondary)
     }
 
+    // One of the "big readout + minus/plus + slider" time cards. The per-turn limit and the
+    // countdown time bank are the same control with a different label, range and step, so
+    // they share one implementation and can't drift apart visually. `label` is passed in
+    // because the two deal in different magnitudes: seconds want the M:SS clock, while a
+    // 90-minute bank rendered that way would read "90:00", which looks like ninety SECONDS.
+    private func timeCard(
+        title: String,
+        seconds: Binding<Int>,
+        range: ClosedRange<Int>,
+        step: Int,
+        label: @escaping (Int) -> String
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            sectionHeader(title)
+            VStack(spacing: 12) {
+                HStack {
+                    // The big readout, e.g. "1:00" or "30 min".
+                    Text(label(seconds.wrappedValue))
+                        .font(.system(size: 26, weight: .heavy, design: .monospaced))
+                        .foregroundStyle(.white)
+                    Spacer()
+                    // Minus/plus step by `step`, clamped to the allowed range.
+                    stepperButton("minus") {
+                        seconds.wrappedValue = max(range.lowerBound, seconds.wrappedValue - step)
+                    }
+                    stepperButton("plus") {
+                        seconds.wrappedValue = min(range.upperBound, seconds.wrappedValue + step)
+                    }
+                }
+                // The slider binds through a Double conversion (Slider only speaks Double);
+                // the matching `step` keeps it on the same grid as the buttons.
+                Slider(
+                    value: Binding(
+                        get: { Double(seconds.wrappedValue) },
+                        set: { seconds.wrappedValue = Int($0) }
+                    ),
+                    in: Double(range.lowerBound)...Double(range.upperBound),
+                    step: Double(step)
+                )
+                .tint(MeeplePalette.silver)
+            }
+            .padding(16)
+            .background(MeeplePalette.card, in: RoundedRectangle(cornerRadius: 14))
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .stroke(MeeplePalette.cardBorder, lineWidth: 1)
+            )
+        }
+    }
+
     // One of the square minus/plus stepper buttons.
     private func stepperButton(_ symbol: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
@@ -271,10 +349,19 @@ struct PlayerSetupView: View {
 
     // Builds the real game engine from the draft and launches it.
     private func startGame() {
+        AnalyticsService.gameStarted(
+            mode: draft.mode,
+            playerCount: draft.playerCount,
+            turnLimitSeconds: draft.turnLimitSeconds,
+            totalTimePerPlayerSeconds: draft.totalTimePerPlayerSeconds,
+            randomFirstPlayer: draft.firstPlayerChoice == .random
+        )
         activeGame = TimerGameViewModel(
             players: draft.players,
             gameName: draft.gameName,
+            mode: draft.mode,
             turnLimitSeconds: draft.turnLimitSeconds,
+            totalTimePerPlayerSeconds: draft.totalTimePerPlayerSeconds,
             firstPlayerIndex: draft.resolvedFirstPlayerIndex(),
             soundAndHapticsEnabled: soundAndHapticsEnabled
         )
