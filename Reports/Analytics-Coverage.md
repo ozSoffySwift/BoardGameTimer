@@ -21,6 +21,7 @@ yourself is in the last section.
 | `player_out_of_time` | A countdown player's bank hits zero | ✅ |
 | `results_shared` | Share Summary tapped | ✅ |
 | `history_cleared` | Clear History confirmed in Settings | ✅ |
+| `rate_app_tapped` | Rate This App tapped on About | ❌ **added after 1.1** |
 | `screen_view` × 8 screens | Each screen appears | ❌ **added after 1.1 — see §4** |
 
 Plus Firebase's own automatic events (`first_open`, `session_start`, `user_engagement`,
@@ -135,6 +136,20 @@ Fires in `clearHistory()` — [SettingsView.swift:203](../MeepleClock/Views/Sett
 |---|---|---|
 | `game_count` | Int | How many games were deleted, counted before the delete |
 
+### `rate_app_tapped`
+Fires in the Rate This App button — [AboutView.swift:69](../MeepleClock/Views/About/AboutView.swift#L69), logged *before* `requestReview()`.
+
+| Parameter | Type | Meaning |
+|---|---|---|
+| `game_count` | Int | Saved games at that moment — engagement context |
+
+*Answers:* does anyone press the button whose entire purpose is driving App Store ratings — and
+are they engaged users or curious first-timers?
+
+⚠️ **This records the tap, not a rating.** iOS decides on its own whether to actually show the
+review prompt (throttled to a few times a year per user, regardless of how often the app asks)
+and never reports back what the user did with it. A tap means "wanted to rate", not "rated".
+
 ---
 
 ## 4. Screen views — the gap that 1.1 shipped with
@@ -171,7 +186,7 @@ lives in `AnalyticsService.swift` so the one-file rule survives.
 | `results_history` | `ResultsView` (re-opened from history) | [145](../MeepleClock/Views/Results/ResultsView.swift#L145) |
 | `statistics` | `StatisticsView` | [81](../MeepleClock/Views/Stats/StatisticsView.swift#L81) |
 | `settings` | `SettingsView` | [161](../MeepleClock/Views/Settings/SettingsView.swift#L161) |
-| `about` | `AboutView` | [70](../MeepleClock/Views/About/AboutView.swift#L70) |
+| `about` | `AboutView` | [79](../MeepleClock/Views/About/AboutView.swift#L79) |
 
 Two deliberate choices worth knowing:
 
@@ -287,7 +302,7 @@ turn-limit slider twenty times produces one event with the value they settled on
 | Screen appears | ✅ `screen_view: about` | |
 | LinkedIn link | ❌ | |
 | GitHub link | ❌ | |
-| **Rate This App** | ❌ | **Highest-value gap — see §7** |
+| **Rate This App** | ✅ `rate_app_tapped` | Tap only — iOS never reports whether a rating followed |
 
 ---
 
@@ -313,30 +328,27 @@ this could leak, and they are simply not instrumented.
 
 Ranked by value per unit of effort.
 
-**1. `rate_app_tapped` — About screen.** The Rate This App button exists solely to drive App
-Store ratings, and right now there is zero visibility into whether anyone presses it. One line.
-(iOS throttles whether the prompt actually appears, which the app can't observe — but the *tap*
-is the interesting signal anyway.)
-
-**2. Settings changes** — `setting_changed(name, value)` on the turn-time stepper, both toggles,
+**1. Settings changes** — `setting_changed(name, value)` on the turn-time stepper, both toggles,
 and the colour slots. These are the defaults every new game inherits. If most people immediately
 change the 60-second turn limit, the default is wrong — and today that is invisible. Four small
 call sites.
 
-**3. `turn_overtime_reached`** — fires when a turn crosses the per-turn limit. Directly answers
+**2. `turn_overtime_reached`** — fires when a turn crosses the per-turn limit. Directly answers
 whether 60 seconds is a sensible default, and how much the limit actually bites in practice.
 Bounded volume if capped at once per turn. Pairs naturally with `player_out_of_time`, which
 already covers the countdown equivalent.
 
-**4. Colour customisation** — whether anyone changes meeple colours at all. Justifies (or
+**3. Colour customisation** — whether anyone changes meeple colours at all. Justifies (or
 retires) the ten-colour palette, the picker sheet, and the default-colours grid in Settings.
 
-**5. Setup abandonment** — *no new code needed.* Now that `screen_view: player_setup` exists,
+**4. Setup abandonment** — *no new code needed.* Now that `screen_view: player_setup` exists,
 this is derivable in the console as `player_setup` views minus `game_started` events. Worth
 building as a funnel once the next build has data.
 
-**6. Share completion** — would need replacing `ShareLink` with a custom presentation to observe
+**5. Share completion** — would need replacing `ShareLink` with a custom presentation to observe
 the outcome. Meaningful cost for a modest signal; listed for completeness, not recommended.
+
+*Closed since first writing:* `rate_app_tapped` (was #1) — now live, see §3.
 
 Explicitly **not** recommended: per-turn events (§6), and anything capturing typed text (§8).
 
@@ -436,3 +448,4 @@ grep -rn "AnalyticsService\.\|trackScreen(" MeepleClock --include="*.swift"
 |---|---|
 | 2026-08-06 | Six custom events added; shipped in 1.1 |
 | 2026-08-06 | `screen_view` gap found and fixed (§4); **not in 1.1** |
+| 2026-08-06 | `rate_app_tapped` added — closed the top gap from §7; **not in 1.1** |

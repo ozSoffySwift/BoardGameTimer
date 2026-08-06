@@ -97,6 +97,22 @@ enum AnalyticsService {
             "game_count": gameCount,
         ])
     }
+
+    // "Rate This App" was tapped on the About screen. That button exists for one purpose —
+    // driving App Store ratings — so whether anyone actually presses it is worth knowing.
+    //
+    // This records the TAP, not that a rating happened. iOS decides on its own whether to
+    // actually show the prompt (it throttles this to a few times a year per user regardless of
+    // how often the app asks), and never tells the app what the user did with it. So a tap here
+    // means "wanted to rate", not "rated".
+    //
+    // `gameCount` rides along to answer the obvious follow-up: are the people reaching for this
+    // engaged users with a pile of games behind them, or curious first-timers?
+    static func rateAppTapped(gameCount: Int) {
+        Analytics.logEvent("rate_app_tapped", parameters: [
+            "game_count": gameCount,
+        ])
+    }
 }
 
 // Marks a view as a screen, so Firebase logs a `screen_view` when it appears.

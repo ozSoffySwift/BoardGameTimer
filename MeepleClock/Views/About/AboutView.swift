@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData // For counting saved games, sent as context with the rate-app event.
 import StoreKit // Needed for the native "request an App Store review" action below.
 
 // AboutView is a simple, mostly-static screen: what this app is, who made it, and a couple
@@ -13,6 +14,11 @@ struct AboutView: View {
     // allowed to appear to any one user (a few times a year), regardless of how often the
     // app calls it — that throttling is handled entirely by the system, not by this code.
     @Environment(\.requestReview) private var requestReview
+
+    // Saved games, used only for their COUNT — sent with the rate-app event so a tap can be
+    // read as "engaged user with a pile of games behind them" or "curious first-timer".
+    // Nothing about the games themselves is read or sent.
+    @Query private var history: [GameRecord]
 
     var body: some View {
         Form {
@@ -58,6 +64,9 @@ struct AboutView: View {
 
             Section {
                 Button {
+                    // Logged before asking, so the tap is recorded whether or not iOS decides
+                    // to actually show its prompt this time.
+                    AnalyticsService.rateAppTapped(gameCount: history.count)
                     requestReview()
                 } label: {
                     Label("Rate This App", systemImage: "star.fill")
@@ -75,4 +84,6 @@ struct AboutView: View {
     NavigationStack {
         AboutView()
     }
+    // Required now that the view runs a @Query — without a container it traps at runtime.
+    .modelContainer(for: GameRecord.self, inMemory: true)
 }
