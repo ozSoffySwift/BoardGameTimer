@@ -207,6 +207,9 @@ struct TimerHomeView: View {
         quickGame = TimerGameViewModel(
             players: players,
             gameName: "Quick Game",
+            // Quick Start stays a plain stopwatch: setting up a time bank is exactly the
+            // kind of decision this button exists to skip. Countdown is a Player Setup choice.
+            mode: .stopwatch,
             turnLimitSeconds: defaultTurnLimitSeconds,
             firstPlayerIndex: 0,
             soundAndHapticsEnabled: soundAndHapticsEnabled

@@ -81,9 +81,16 @@ struct TimerActiveView: View {
                             let isActive = seat == game.activeIndex
                             WedgeLabel(
                                 player: player,
-                                secondsUsed: game.secondsUsed(for: seat, at: now),
+                                // Counts up in stopwatch games, down in countdown ones —
+                                // the engine decides, so the mode check stays out of here.
+                                displaySeconds: game.displaySeconds(for: seat, at: now),
+                                isCountdown: game.mode == .countdown,
                                 isActive: isActive,
-                                isOvertime: isActive && game.isOvertime
+                                // Red for either alarm: this turn running long, or this
+                                // player having spent their whole bank. A player who is out
+                                // of time stays red on every later turn, not just the one
+                                // they ran out on.
+                                isAlarm: (isActive && game.isOvertime) || game.isOutOfTime(seat)
                             )
                             .position(labelPosition(seat: seat, totalSeats: game.players.count, in: size))
                             .allowsHitTesting(false) // labels are decoration; taps go to wedges
@@ -283,12 +290,16 @@ private struct DesignWedge: Shape {
 
 // WedgeLabel is the meeple + name + running time stack shown inside each wedge. The active
 // player's version is bigger, solid black, and gently pulses; inactive ones are smaller
-// and translucent. Overtime turns the active player's time red.
+// and translucent. Either alarm — this turn running long, or a countdown player's time bank
+// running out — turns the time red.
 private struct WedgeLabel: View {
     let player: TimerPlayer
-    let secondsUsed: TimeInterval
+    // Time used (counting up) in stopwatch games; time remaining (counting down, and going
+    // negative once the bank is spent) in countdown games.
+    let displaySeconds: TimeInterval
+    let isCountdown: Bool
     let isActive: Bool
-    let isOvertime: Bool
+    let isAlarm: Bool
 
     // Drives the active label's continuous gentle pulse.
     @State private var isPulsing = false
@@ -306,9 +317,11 @@ private struct WedgeLabel: View {
             Text(player.name)
                 .font(.system(size: isActive ? 19 : 12, weight: .bold))
                 .foregroundStyle(labelColor)
-            Text(secondsUsed.asClockString)
+            // The signed format only matters in countdown games, where a spent bank keeps
+            // counting into negative numbers; used-time can never be negative.
+            Text(isCountdown ? displaySeconds.asSignedClockString : displaySeconds.asClockString)
                 .font(.system(size: isActive ? 22 : 13, weight: .bold, design: .monospaced))
-                .foregroundStyle(isOvertime ? MeeplePalette.overtimeRed : labelColor)
+                .foregroundStyle(isAlarm ? MeeplePalette.overtimeRed : labelColor)
         }
         // The pulse: only the active label scales up and down forever.
         .scaleEffect(isActive && isPulsing ? 1.09 : 1.0)
@@ -320,7 +333,7 @@ private struct WedgeLabel: View {
     }
 }
 
-#Preview {
+#Preview("Stopwatch") {
     TimerActiveView(game: TimerGameViewModel(
         players: [
             TimerPlayer(name: "Alex", colorIndex: 0),
@@ -330,6 +343,25 @@ private struct WedgeLabel: View {
         ],
         gameName: "Preview Game",
         turnLimitSeconds: 60,
+        firstPlayerIndex: 0,
+        soundAndHapticsEnabled: false
+    ))
+    .modelContainer(for: GameRecord.self, inMemory: true)
+}
+
+#Preview("Countdown") {
+    TimerActiveView(game: TimerGameViewModel(
+        players: [
+            TimerPlayer(name: "Alex", colorIndex: 0),
+            TimerPlayer(name: "Sam", colorIndex: 1),
+            TimerPlayer(name: "Riley", colorIndex: 2),
+            TimerPlayer(name: "Drew", colorIndex: 3),
+        ],
+        gameName: "Preview Game",
+        mode: .countdown,
+        turnLimitSeconds: 60,
+        // A tiny bank so the preview reaches the red negative state within seconds.
+        totalTimePerPlayerSeconds: 20,
         firstPlayerIndex: 0,
         soundAndHapticsEnabled: false
     ))

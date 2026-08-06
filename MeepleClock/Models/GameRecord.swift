@@ -36,20 +36,65 @@ final class GameRecord {
     // their own, only ever loaded together with their game.
     var players: [PlayerResult]
 
+    // Which mode the game was played in, as a raw string.
+    //
+    // OPTIONAL ON PURPOSE. Version 1.0 shipped without these two fields, and there are real
+    // saved games on real devices. SwiftData migrates a new OPTIONAL property implicitly —
+    // every pre-existing record simply reads back `nil` — whereas a non-optional would need a
+    // hand-written migration plan. `nil` therefore means "saved before modes existed", which
+    // the `mode` accessor below reads as stopwatch, because that's the only thing 1.0 could do.
+    var modeRaw: String?
+
+    // Countdown only: the per-player time bank the game was played with, so results can say
+    // how much time each player had to start with. `nil` for stopwatch games and for anything
+    // saved by 1.0.
+    var totalTimePerPlayerSeconds: Int?
+
     // Creates a record ready to insert. SwiftData requires an explicit initializer on
     // @Model classes (it can't synthesize one the way plain structs get for free).
-    init(date: Date, gameName: String, rounds: Int, players: [PlayerResult]) {
+    init(
+        date: Date,
+        gameName: String,
+        rounds: Int,
+        players: [PlayerResult],
+        mode: GameMode = .stopwatch,
+        totalTimePerPlayerSeconds: Int? = nil
+    ) {
         self.date = date
         self.gameName = gameName
         self.rounds = rounds
         self.players = players
+        self.modeRaw = mode.rawValue
+        self.totalTimePerPlayerSeconds = totalTimePerPlayerSeconds
     }
 }
 
 extension GameRecord {
+    // Which mode this game was played in. Anything saved before modes existed reads as
+    // stopwatch, which is exactly what it was.
+    var mode: GameMode {
+        GameMode(rawValue: modeRaw ?? "") ?? .stopwatch
+    }
+
+    // Countdown only: how much of their bank a player had left when the game ended. Negative
+    // if they went over. Returns nil for stopwatch games, where there was no bank.
+    func secondsRemaining(for index: Int) -> Int? {
+        guard mode == .countdown, let bank = totalTimePerPlayerSeconds,
+              players.indices.contains(index) else { return nil }
+        return bank - players[index].secondsUsed
+    }
+
+    // A caption for the results header, e.g. "Countdown · 30:00 per player". Nil in stopwatch
+    // games, which need no explanation.
+    var modeCaption: String? {
+        guard mode == .countdown, let bank = totalTimePerPlayerSeconds else { return nil }
+        return "Countdown \u{00B7} \(TimeInterval(bank).asClockString) per player"
+    }
+
     // The winner is whoever used the LEAST total time (fastest thinker) — matching the
-    // design, which crowns the smallest time. Returns the index into `players`, or nil
-    // for an empty (shouldn't happen) player list.
+    // design, which crowns the smallest time. This is correct in BOTH modes: with every
+    // player starting from the same bank, least time used IS most time remaining.
+    // Returns the index into `players`, or nil for an empty (shouldn't happen) player list.
     var winnerIndex: Int? {
         guard !players.isEmpty else { return nil }
         // `min(by:)` finds the smallest element; `firstIndex` turns it back into a
@@ -77,8 +122,18 @@ extension GameRecord {
     //   Catan Night — Jul 3, 2026
     //   - Alex: 12:30
     //   - Sam: 9:12
+    // Countdown games add the bank as a second header line, and each player's line shows how
+    // much they had left, since "9:12 used" means something different when there was a budget.
     var shareText: String {
-        let lines = players.map { "- \($0.name): \(TimeInterval($0.secondsUsed).asClockString)" }
-        return "\(gameName) \u{2014} \(dateLabel)\n" + lines.joined(separator: "\n")
+        let lines = players.enumerated().map { index, player -> String in
+            let used = TimeInterval(player.secondsUsed).asClockString
+            guard let remaining = secondsRemaining(for: index) else {
+                return "- \(player.name): \(used)"
+            }
+            return "- \(player.name): \(used) used, \(TimeInterval(remaining).asSignedClockString) left"
+        }
+        let header = modeCaption.map { "\(gameName) \u{2014} \(dateLabel)\n\($0)" }
+            ?? "\(gameName) \u{2014} \(dateLabel)"
+        return header + "\n" + lines.joined(separator: "\n")
     }
 }

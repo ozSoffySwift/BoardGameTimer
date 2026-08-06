@@ -29,6 +29,13 @@ struct ResultsView: View {
                     Text("\(record.dateLabel) \u{00B7} Round \(record.rounds)")
                         .font(.system(size: 13))
                         .foregroundStyle(MeeplePalette.textSecondary)
+                    // Countdown games say so, and say what the bank was — without it, a row
+                    // reading "9:12" gives no sense of whether that was fast or slow.
+                    if let modeCaption = record.modeCaption {
+                        Text(modeCaption)
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(MeeplePalette.silver)
+                    }
                 }
                 .padding(.top, 6)
 
@@ -50,9 +57,18 @@ struct ResultsView: View {
                                 }
                             }
                             Spacer()
-                            Text(TimeInterval(player.secondsUsed).asClockString)
-                                .font(.system(size: 16, weight: .bold, design: .monospaced))
-                                .foregroundStyle(MeeplePalette.silver)
+                            VStack(alignment: .trailing, spacing: 1) {
+                                Text(TimeInterval(player.secondsUsed).asClockString)
+                                    .font(.system(size: 16, weight: .bold, design: .monospaced))
+                                    .foregroundStyle(MeeplePalette.silver)
+                                // Countdown games add what was LEFT underneath, in red for
+                                // anyone who went past their bank.
+                                if let remaining = record.secondsRemaining(for: index) {
+                                    Text("\(TimeInterval(remaining).asSignedClockString) left")
+                                        .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                                        .foregroundStyle(remaining < 0 ? MeeplePalette.overtimeRed : MeeplePalette.textSecondary)
+                                }
+                            }
                         }
                         .padding(.vertical, 12)
                         .padding(.horizontal, 14)
@@ -120,7 +136,7 @@ struct ResultsView: View {
     }
 }
 
-#Preview {
+#Preview("Stopwatch") {
     ResultsView(
         record: GameRecord(
             date: Date(),
@@ -131,6 +147,26 @@ struct ResultsView: View {
                 PlayerResult(name: "Sam", colorIndex: 1, secondsUsed: 195),
                 PlayerResult(name: "Riley", colorIndex: 3, secondsUsed: 428),
             ]
+        ),
+        isReadOnly: false
+    )
+    .preferredColorScheme(.dark)
+}
+
+// Riley is deliberately over their 10-minute bank, so the negative "left" row is visible.
+#Preview("Countdown") {
+    ResultsView(
+        record: GameRecord(
+            date: Date(),
+            gameName: "Chess Night",
+            rounds: 6,
+            players: [
+                PlayerResult(name: "Alex", colorIndex: 0, secondsUsed: 312),
+                PlayerResult(name: "Sam", colorIndex: 1, secondsUsed: 195),
+                PlayerResult(name: "Riley", colorIndex: 3, secondsUsed: 664),
+            ],
+            mode: .countdown,
+            totalTimePerPlayerSeconds: 600
         ),
         isReadOnly: false
     )
