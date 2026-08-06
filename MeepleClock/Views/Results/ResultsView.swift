@@ -99,6 +99,13 @@ struct ResultsView: View {
                     )
                 }
                 .padding(.top, 6)
+                // ShareLink has no action closure of its own, so the tap is logged with a
+                // simultaneous gesture. It records that sharing was STARTED — whether the
+                // user goes on to pick a destination happens inside the system sheet, which
+                // the app can't see.
+                .simultaneousGesture(TapGesture().onEnded {
+                    AnalyticsService.resultsShared(mode: record.mode)
+                })
 
                 // --- Done (fresh game) or Close (history browsing) ---
                 if isReadOnly {

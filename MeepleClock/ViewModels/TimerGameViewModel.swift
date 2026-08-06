@@ -364,6 +364,10 @@ final class TimerGameViewModel: Identifiable {
             guard let self, !Task.isCancelled else { return }
             self.exhaustedSeats.insert(seat)
             self.playLimitAlert()
+            AnalyticsService.playerOutOfTime(
+                playerCount: self.players.count,
+                totalTimePerPlayerSeconds: self.totalTimePerPlayerSeconds
+            )
         }
     }
 

@@ -349,6 +349,13 @@ struct PlayerSetupView: View {
 
     // Builds the real game engine from the draft and launches it.
     private func startGame() {
+        AnalyticsService.gameStarted(
+            mode: draft.mode,
+            playerCount: draft.playerCount,
+            turnLimitSeconds: draft.turnLimitSeconds,
+            totalTimePerPlayerSeconds: draft.totalTimePerPlayerSeconds,
+            randomFirstPlayer: draft.firstPlayerChoice == .random
+        )
         activeGame = TimerGameViewModel(
             players: draft.players,
             gameName: draft.gameName,

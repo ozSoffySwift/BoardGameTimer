@@ -200,6 +200,7 @@ struct TimerHomeView: View {
 
     // Launches an instant game with default names/colors and the saved default turn time.
     private func startQuickGame(playerCount: Int) {
+        AnalyticsService.quickGameStarted(playerCount: playerCount)
         let colors = decodedDefaultColors
         let players = (0..<playerCount).map { seat in
             TimerPlayer(name: "Player \(seat + 1)", colorIndex: colors[seat % max(colors.count, 1)])

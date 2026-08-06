@@ -237,7 +237,10 @@ struct TimerActiveView: View {
 
     // Ends the game: saves the record into SwiftData history and swaps to results.
     private func endGame() {
+        // Read the whole-game clock BEFORE endGame() freezes it.
+        let durationSeconds = Int(game.gameElapsed().rounded())
         let record = game.endGame()
+        AnalyticsService.gameEnded(record: record, durationSeconds: durationSeconds)
         modelContext.insert(record)
         // An explicit save guarantees the game is on disk before anything else happens —
         // good practice even though SwiftData usually autosaves.
