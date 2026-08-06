@@ -75,13 +75,20 @@ Replace all screenshots — every existing one shows the old blocky player figur
 Player Setup shot no longer matches the screen (it gains the Mode chips and, in Countdown, a
 Total Time Per Player field).
 
-**Status: not yet regenerated.** `Screenshots/` still holds the 1.0 captures.
+**Done.** Regenerated at **1320 × 2868 (6.9")** from an iPhone 17 Pro Max simulator — the size
+App Store Connect wants as the primary iPhone set (it scales down for smaller devices). All
+five are in [`Screenshots/`](Screenshots/), captured with a clean 9:41 status bar:
 
-To be regenerated at **1320 × 2868 (6.9")** from an iPhone 17 Pro Max simulator, which is the
-size App Store Connect wants as the primary iPhone set (it scales down for smaller devices).
+| File | Shows |
+|---|---|
+| `01-home.png` | Home with recent games |
+| `02-player-setup.png` | Player Setup with **Countdown** selected — the new Mode chips and Total Time Per Player field |
+| `03-active-game.png` | The radial live game, 4 players, stopwatch |
+| `04-results.png` | Countdown results with the mode caption and per-player time remaining |
+| `05-countdown.png` | A countdown game in progress, all four clocks counting down |
 
-Worth knowing: the 1.0 screenshots are 1242 × 2688, which is the **6.5"** size, even though
-`README.md` claimed 6.9". Both should be corrected together.
+Note the 1.0 screenshots were 1242 × 2688 — the **6.5"** size — even though `README.md`
+claimed 6.9". Both have now been corrected.
 
 ## 6. Export compliance
 

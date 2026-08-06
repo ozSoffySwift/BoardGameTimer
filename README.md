@@ -36,16 +36,12 @@ design history.
 
 ## Screenshots
 
-| Home | Player setup | Live game | Results |
-|---|---|---|---|
-| ![Home screen](Marketing/Screenshots/01-home.png) | ![Player setup](Marketing/Screenshots/02-player-setup.png) | ![Active radial timer](Marketing/Screenshots/03-active-game.png) | ![Results with winner crown](Marketing/Screenshots/04-results.png) |
+| Home | Player setup | Live game | Results | Countdown |
+|---|---|---|---|---|
+| ![Home screen](Marketing/Screenshots/01-home.png) | ![Player setup with Countdown selected](Marketing/Screenshots/02-player-setup.png) | ![Active radial timer](Marketing/Screenshots/03-active-game.png) | ![Countdown results with winner crown](Marketing/Screenshots/04-results.png) | ![Countdown game in progress](Marketing/Screenshots/05-countdown.png) |
 
-Marketing assets and App Store submission docs live in [Marketing/](Marketing).
-
-> **Note:** the screenshots above are from 1.0 — they show the old player figures and a
-> Player Setup screen that predates the mode picker. They need regenerating at 1320x2868
-> (6.9") before the 1.1 submission. See
-> [Marketing/AppStoreConnect-1.1.md](Marketing/AppStoreConnect-1.1.md).
+App Store-ready marketing assets (6.9" screenshots at 1320x2868, app icon exports, and the
+submission checklist) live in [Marketing/](Marketing).
 
 ## Tech stack
 
